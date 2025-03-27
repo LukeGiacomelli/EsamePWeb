@@ -1,5 +1,5 @@
 <?php
-include("assets/php/allstyle.html");
+include("assets/css/allstyle.html");
 
 
     function getUtentiTable($db) {

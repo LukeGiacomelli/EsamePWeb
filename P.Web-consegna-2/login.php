@@ -2,7 +2,11 @@
     $nomepagina = "Login";
 
     include("assets/php/config.php");
+    $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+
     include("assets/php/auth.php");
+
+
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         auth_log($db,$_POST['email'], $_POST['password']);
@@ -19,9 +23,8 @@
         <title>PNL - <?php echo $nomepagina; ?></title>
         
         <?php 
-            include("assets/php/allstyle.html");
+            include("assets/css/allstyle.html");
         ?>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
     </head>
     <body id="page-top">
@@ -29,6 +32,7 @@
         <!-- importo la navbar --> 
         <?php include("assets/php/navbar.php");?>
 
+        <script src="assets/js/alerts.js"></script>
         <section id="login_section" class="bg-dark text-white py-7">
             <div class="container px-4 px-lg-5 h-100">
                 <form method="post">
@@ -67,39 +71,9 @@
                 </form>
             </div>
         </section>
-
-        
-<script>
-    <?php if (isset($_SESSION['login_error'])): ?>
-        <?php if ($_SESSION['login_error'] == 'no_account'): ?>
-            Swal.fire({
-                icon: 'error',
-                title: 'Account non trovato',
-                text: 'Le credenziali inserite risultano errate. Per favore, riprova o registrati.',
-                confirmButtonText: 'OK'
-            });
-        <?php elseif ($_SESSION['login_error'] == 'not_approved'): ?>
-            Swal.fire({
-                icon: 'info',
-                title: 'Account in attesa di approvazione',
-                text: 'Il tuo account deve ancora essere approvato dall\'amministratore. Per favore, riprova più tardi.',
-                confirmButtonText: 'OK'
-            });
-        <?php elseif ($_SESSION['login_error'] == 'blocked'): ?>
-            Swal.fire({
-                icon: 'warning',
-                title: 'Account bloccato',
-                text: 'Il tuo account è stato bloccato. Contatta l\'amministratore per ulteriori informazioni.',
-                confirmButtonText: 'OK'
-            });
-        <?php endif; ?>
-        <?php unset($_SESSION['login_error']); ?>
-    <?php endif; ?>
-</script>
-
-        <!-- Footer-->
-        <?php 
-            include("assets/php/footer.php");
-        ?>
+    <?php
+        // Footer
+        include("assets/php/footer.php");
+    ?>
     </body>
 </html>

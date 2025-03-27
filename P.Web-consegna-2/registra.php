@@ -2,6 +2,8 @@
     $nomepagina = "Registrazione";
 
     include("assets/php/config.php");
+    $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+
     include("assets/php/auth.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -29,9 +31,8 @@
         <title>PNL - <?php echo $nomepagina; ?></title>
         
         <?php 
-            include("assets/php/allstyle.html");
+            include("assets/css/allstyle.html");
         ?>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         
     </head>
     <body id="page-top">

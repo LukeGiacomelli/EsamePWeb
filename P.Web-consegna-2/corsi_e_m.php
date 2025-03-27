@@ -13,7 +13,7 @@
         <title>PNL - <?php echo $nomepagina; ?></title>
         
         <?php 
-            include("assets/php/allstyle.html");
+            include("assets/css/allstyle.html");
         ?>
 
     </head>

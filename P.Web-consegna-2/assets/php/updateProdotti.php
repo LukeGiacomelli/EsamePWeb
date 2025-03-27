@@ -4,21 +4,12 @@
     //Se ricevo la variabile da js (con ajax)
     if (isset($data['id_caller'])) {
         $id_prod = $data['id_caller'];
-        $db = connectToDb();
 
         update($id_prod,$db);
 
         //echo "Ricevuto: " . htmlspecialchars($id_prod);
     }
 
-    function connectToDb(){
-        define('DB_SERVER', 'localhost');
-        define('DB_USERNAME', 'root');
-        define('DB_PASSWORD', '');
-        define('DB_DATABASE', 'pnldb');
-        $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-        return $db;
-    }
     function update($id_prod, $db){
         $sql = "SELECT 
         p.Prodotto_id, 
