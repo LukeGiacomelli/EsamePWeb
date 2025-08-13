@@ -1,5 +1,3 @@
-
-
 function goBack() {
     if (document.referrer) {
         window.history.back(); // Torna indietro se c'è una cronologia

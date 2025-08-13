@@ -1,13 +1,13 @@
 <?php
+    include("config.php");
     $data = json_decode(file_get_contents('php://input'), true);
 
     //Se ricevo la variabile da js (con ajax)
     if (isset($data['id_caller'])) {
         $id_prod = $data['id_caller'];
+        $db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
         update($id_prod,$db);
-
-        //echo "Ricevuto: " . htmlspecialchars($id_prod);
     }
 
     function update($id_prod, $db){
@@ -17,7 +17,7 @@
         p.Prodotto_immagine, 
         p.Prodotto_descrizione,
         c.Corso_Nome, 
-        c.N_Lez,  
+        c.N_iscritti,  
         c.Corso_Data,
         s.Sala_Nome,
         s.Sala_Tipo,  
@@ -46,7 +46,7 @@
             $img_prod = $row['Prodotto_immagine'];
             $desc_prod = $row['Prodotto_descrizione'];
             $nome_corso = $row['Corso_Nome'];
-            $n_lez = $row['N_Lez'];
+            $N_iscritti = $row['N_iscritti'];
             $data_corso = $row['Corso_Data'];
             $nome_sala = $row['Sala_Nome'];
             $tipo_sala = $row['Sala_Tipo'];
@@ -58,7 +58,7 @@
             $sala_capienza = $row['Sala_capienza'];
 
             echo $id_prod. '| ' . $price_prod. '| ' . $img_prod. '| ' . $desc_prod. '| ' . $nome_corso.
-            '| ' . $n_lez. '| ' . $data_corso. '| ' . $nome_sala. '| ' . $tipo_sala. '| ' . $tipo_servizio.
+            '| ' . $N_iscritti. '| ' . $data_corso. '| ' . $nome_sala. '| ' . $tipo_sala. '| ' . $tipo_servizio.
             '| ' . $corso_operatore_nome. '| ' . $corso_operatore_cognome. '| ' . $serv_operatore_nome. 
             '| ' . $serv_operatore_cognome. '| ' . $sala_capienza;
         }

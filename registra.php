@@ -128,35 +128,10 @@
         </form>
     </div>
 </section>
-
-
-<script>
-    <?php if (isset($_SESSION['reg_message'])): ?>
-        var regMessage = <?php echo json_encode($_SESSION['reg_message']); ?>;
-        console.log("Messaggio di errore: " + regMessage);  // Debug in JavaScript
-        <?php if ($_SESSION['reg_message'] == 'success'): ?>
-            Swal.fire({
-                icon: 'success',
-                title: 'Registrazione completata',
-                text: 'La registrazione è andata a buon fine. Sei in attesa di approvazione da parte degli amministratori.',
-                confirmButtonText: 'OK'
-            });
-        <?php else: ?>
-            Swal.fire({
-                icon: 'error',
-                title: 'Credenziali già registrate',
-                text: regMessage,
-                confirmButtonText: 'OK'
-            });
-        <?php endif; ?>
-        <?php unset($_SESSION['reg_message']); ?>
-    <?php endif; ?>
-</script>
-
-
-        <!-- Footer -->
-        <?php 
-            include("assets/php/footer.php");
-        ?>
-    </body>
+<script src="assets/js/alerts.js"></script>
+<!-- Footer -->
+<?php 
+    include("assets/php/footer.php");
+?>
+</body>
 </html>

@@ -6,7 +6,7 @@
                     LEFT JOIN SALA s ON p.Prodotto_id = s.Prodotto_id
                     LEFT JOIN SERVIZIO servizio ON p.Prodotto_id = servizio.Prodotto_id";
     $dinamic_columns = "c.Corso_Nome, 
-                        c.N_Lez,  
+                        c.N_iscritti,  
                         c.Corso_Data,
                         s.Sala_Nome,
                         s.Sala_Tipo,
@@ -32,7 +32,7 @@
                 if (isset($_POST["tipo_prod"]) && $_POST["tipo_prod"] != "op"){
                     if ($_POST["tipo_prod"] === "Corso"){
                         $dinamic_columns = "c.Corso_Nome, 
-                                            c.N_Lez,  
+                                            c.N_iscritti,  
                                             c.Corso_Data";
                         $join_field = "INNER JOIN CORSO c ON p.Prodotto_id = c.Prodotto_id";
                     }else if ($_POST["tipo_prod"] === "Sala"){
@@ -58,14 +58,14 @@
 
     ?> 
     <script>
-        priceRange.value = <?php echo isset($_POST['priceRange']) ? $_POST['priceRange'] : ""; ?>;
-        priceLabel.textContent = '<?php echo isset($_POST['priceRange']) ? ("Price range (" . $_POST['priceRange'] . ")") : "Price range"; ?>';
-        tipo_prod.value = '<?php echo isset($_POST['tipo_prod']) ? $_POST['tipo_prod'] : ""; ?>';
-        desc_textbox.value = '<?php echo isset($_POST['desc_tb']) ? $_POST['desc_tb'] : ""; ?>';
-        hot_checkbox.checked = <?php echo isset($_POST['hot_box']) ? "true" : "false" ?>;
-        //date_min.value = '<?php //echo $_POST['date_min']; ?>';
-        //date_max.value = '<?php //echo $_POST['date_max']; ?>';
-    </script> 
+    window.postValues = <?php echo json_encode([
+        'priceRange' => $_POST['priceRange'] ?? '',
+        'tipo_prod' => $_POST['tipo_prod'] ?? '',
+        'desc_tb' => $_POST['desc_tb'] ?? '',
+        'hot_box' => isset($_POST['hot_box']) && $_POST['hot_box'],
+    ]); ?>;
+    </script>
+    
     <?php
     $where_field = ($where_field != "" ? "WHERE " . substr($where_field, 0, -4) : "");
     $sql = "SELECT 

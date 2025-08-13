@@ -24,16 +24,40 @@ decreaseBtns.forEach((btn, index) => {
 
 // Attendi che la pagina sia completamente caricata
 document.addEventListener('DOMContentLoaded', function () {
+    //Extract products
+    if (window.postValues) {
+        const { priceRange, tipo_prod, desc_tb, hot_box } = window.postValues;
+
+        if (priceRange && document.getElementById("priceRange")) {
+            priceRangeInput.value = priceRange;
+            priceLabel.textContent = `Price range (${priceRange})`;
+        }
+
+        if (tipo_prod && document.getElementById("tipo_prod")) {
+            tipo_prodInput.value = tipo_prod;
+        }
+
+        if (desc_tb && document.getElementById("desc_textbox")) {
+            desc_textboxInput.value = desc_tb;
+        }
+
+        if (typeof hot_box !== "undefined") {
+            hot_checkbox.checked = hot_box;
+        }
+    }
+
     // Seleziona il bottone
     const openModalButton = document.getElementById('openModalButton');
     const openModalModButton = document.getElementById('openModalModButton');
 
-    // Aggiungi un evento al click
-    openModalButton.addEventListener('click', function () {
-        // Apri il modal usando il suo ID
-        const modal = new bootstrap.Modal(document.getElementById('inserimentoProdottoModal'));
-        modal.show();
-    });
+    if(openModalButton != null){
+        // Aggiungi un evento al click
+        openModalButton.addEventListener('click', function () {
+            // Apri il modal usando il suo ID
+            const modal = new bootstrap.Modal(document.getElementById('inserimentoProdottoModal'));
+            modal.show();
+        });
+    }
 });
 
 
@@ -73,6 +97,8 @@ function openModalModButton(caller) {
     document.getElementById("id_tb").value = caller.id;
 
     const id_caller = caller.id;
+    console.log("-------------------------------------: ", id_caller);
+    
     fetch('assets/php/updateProdotti.php', {
         method: 'POST',
         headers: {
@@ -118,7 +144,6 @@ function openModalModButton(caller) {
         .catch(error => console.error('Errore:', error));
 
     // Passa le variabili PHP a JavaScript
-
     const modal = new bootstrap.Modal(document.getElementById('modificaProdottoModal'));
     modal.show();
 }

@@ -30,9 +30,8 @@
     <body id="page-top">
 
         <!-- importo la navbar --> 
-        <?php include("assets/php/navbar.php");?>
-
         <script src="assets/js/alerts.js"></script>
+        <?php include("assets/php/navbar.php");?>
         <section id="login_section" class="bg-dark text-white py-7">
             <div class="container px-4 px-lg-5 h-100">
                 <form method="post">

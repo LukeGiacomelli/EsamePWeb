@@ -12,19 +12,16 @@ include('assets/php/session.php');
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>PNL - <?php echo $nomepagina; ?></title>
-
     <?php
-    include("assets/css/allstyle.html");
+        include("assets/css/allstyle.html");
     ?>
-
 </head>
 
 <body id="page-top">
-
     <!--importo la navbar e l'header-->
     <?php
-    include("assets/php/navbar.php");
-    include("assets/php/masthead.php");
+        include("assets/php/navbar.php");
+        include("assets/php/masthead.php");
     ?>
 
 
@@ -155,11 +152,8 @@ include('assets/php/session.php');
                 ';
     }
     ?>
-
-
-
     <?php
-    include("assets/php/footer.php");
+        include("assets/php/footer.php");
     ?>
 </body>
 

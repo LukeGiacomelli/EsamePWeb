@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="card-body p-4">
               <!-- Profile Image -->
               <h3>Utente:</h3>
-              <p><?php echo $login_username; ?> <?php echo $login_surname; ?></p>
+              <p><?php echo $login_username; ?></p>
 
               <h6 class="mt-4">Informazioni su di te</h6>
               <hr class="mt-0 mb-4">
@@ -211,16 +211,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
   <?php
-  if ($login_type == 'admin') {  // mostra gestione utenti solo se l'utente è un admin
-    include("assets/php/gestione_utenti.php");
-  }
+    if ($login_type == 'admin') {  // mostra gestione utenti solo se l'utente è un admin
+      include("assets/php/gestione_utenti.php");
+    }
   ?>
-
   <?php include("assets/php/footer.php"); ?>
-
-  <script>
-
-  </script>
+  
   <script src="assets/js/alerts.js"></script>
 </body>
 </html>

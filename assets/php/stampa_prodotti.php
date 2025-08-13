@@ -16,7 +16,7 @@
 
         // Determinazione del badge e del nome prodotto
         if (isset($row["Corso_Nome"])) {
-            if ($row["N_Lez"] == 1) {
+            if ($row["N_iscritti"] == 1) {
                 $badge_text = "Masterclass";
                 $data_corso = $row["Corso_Data"];
             } else {

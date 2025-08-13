@@ -1,20 +1,13 @@
 <?php
 $nomepagina = "Prenota";
 include('assets/php/session.php');
-
 include("assets/php/proprietariotools.php");
-
 include("assets/php/config.php");
+
 $db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
-include("assets/php/updateProdotti.php");
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     if (isset($_POST['act'])) {
-
-        //Quale submit ha chiamato il post..
         $act = $_POST['act'];
 
         if ($act === 'newprod') {
@@ -28,26 +21,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $tipo = $_POST['tipo'];
 
-
-            // Inserimento nelle tabelle specifiche
             if ($tipo === "sale") {
-
                 $post_specific_data = [
                     'tipo_sala' => $_POST['tipo_sala'],
                     'nome_sala' => $_POST['nome_sala'],
                     'capienza' => $_POST['capienza'],
                 ];
-
-
             } elseif ($tipo === "servizi") {
-
                 $post_specific_data = [
                     'tipo_servizio' => $_POST['tipo_servizio'],
                     'nome_operatore' => $_POST['nome_operatore'],
                     'cognome_operatore' => $_POST['cognome_operatore'],
                 ];
-
-
             } elseif ($tipo === "corsi") {
                 $post_specific_data = [
                     'nome_corso' => $_POST['nome_corso'],
@@ -55,10 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'nome_insegnante_corso' => $_POST['nome_insegnante_corso'],
                     'cognome_insegnante_corso' => $_POST['cognome_insegnante_corso'],
                 ];
-
-
             } elseif ($tipo === "masterclass") {
-
                 $post_specific_data = [
                     'nome_corso' => $_POST['nome_masterclass'],
                     'lezioni' => 1,
@@ -66,28 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'cognome_insegnante_corso' => $_POST['cognome_insegnante_masterclass'],
                     'data_corso' => $_POST['data'],
                 ];
-
             }
+
             creaProdotto($db, $post_general_data, $post_specific_data);
+
         } else if (str_contains($act, 'delprod')) {
             $sql = "DELETE FROM prodotto WHERE Prodotto_id = '" . explode("_", $act)[1] . "'";
             $result = mysqli_query($db, $sql);
 
-            if (mysqli_affected_rows($db) > 0) {
-                //Eliminata con successo
-                echo "
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Prodotto Eliminato',
-                                    text: 'Il prodotto " . explode("_", $act)[1] . " è stato eliminato correttamente.',
-                                    confirmButtonText: 'OK'
-                                });
-                            });
-                        </script>
-                    ";
-            }
         } else if ($act === 'modprod') {
             $post_general_data = [
                 'id' => $_POST['id_tb'],
@@ -99,26 +67,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $tipo = $_POST['tipo_md'];
 
-
-            // Inserimento nelle tabelle specifiche
             if ($tipo === "Sala") {
-
                 $post_specific_data = [
                     'tipo_sala' => $_POST['tipo_sala_md'],
                     'nome_sala' => $_POST['nome_sala_md'],
                     'capienza' => $_POST['capienza_md'],
                 ];
-
-
             } elseif ($tipo === "Servizio") {
-
                 $post_specific_data = [
                     'tipo_servizio' => $_POST['tipo_servizio_md'],
                     'nome_operatore' => $_POST['nome_operatore_md'],
                     'cognome_operatore' => $_POST['cognome_operatore_md'],
                 ];
-
-
             } elseif ($tipo === "Corso") {
                 $post_specific_data = [
                     'nome_corso' => $_POST['nome_corso_md'],
@@ -126,10 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'nome_insegnante_corso' => $_POST['nome_insegnante_corso_md'],
                     'cognome_insegnante_corso' => $_POST['cognome_insegnante_corso_md'],
                 ];
-
-
             } elseif ($tipo === "Masterclass") {
-
                 $post_specific_data = [
                     'nome_corso' => $_POST['nome_masterclass_md'],
                     'lezioni' => 1,
@@ -137,20 +94,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'cognome_insegnante_corso' => $_POST['cognome_insegnante_masterclass_md'],
                     'data_corso' => $_POST['data_md'],
                 ];
-
             }
+
             aggiornaProdotto($db, $post_general_data, $post_specific_data);
         }
     }
-
 }
-
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -171,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include("assets/php/navbar.php");
     include("assets/php/masthead.php");
     include("assets/php/filtri_prodotti.php")
-        ?>
+    ?>
 
 
     <section class="py-5">

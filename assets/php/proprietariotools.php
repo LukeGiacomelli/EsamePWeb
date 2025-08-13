@@ -1,80 +1,4 @@
 <?php
-
-
-/*function check_existing_product($db, $id) {
-
-    // Controllo codice fiscale
-    $sql = "SELECT * FROM prodotto WHERE Prodotto_id = '$id'";
-    $result = mysqli_query($db, $sql);
-    if (mysqli_num_rows($result) > 0) {
-        return true;
-    }
-    return false;
-}*/
-
-/*function creaProdotto($db, $post_gen_array, $post_spec_array){
-    // Dal form...
-    $id = mysqli_real_escape_string($db, $post_gen_array['id']);
-    $prezzo = mysqli_real_escape_string($db, $post_gen_array['prezzo']);
-    $img = mysqli_real_escape_string($db, $post_gen_array['img']);
-    $desc = mysqli_real_escape_string($db, $post_gen_array['desc']);
-
-    $tipo_prod = mysqli_real_escape_string($db, $post_gen_array['tipo']);
-
-    // Query di inserimento
-    if (check_existing_product($db, $id)==false){
-        $sql = "INSERT INTO `prodotto` (`Prodotto_id`, `Prodotto_prezzo`, `Prodotto_immagine`, `Prodotto_descrizione`) 
-                VALUES ('$id', '$prezzo', '$img', '$desc');";
-        $result = mysqli_query($db, $sql);
-    }else{
-        header("Location: form_prodotto.php");
-        exit();
-    }
-
-    if ($result) {
-        // Controllo per verificare l'inserimento
-        $sql_check = "SELECT * FROM prodotto WHERE Prodotto_id = '$id'";
-        $result_check = mysqli_query($db, $sql_check);   
-        $count_check = mysqli_num_rows($result_check);
-
-        if ($count_check > 0) {
-            // Messaggio di successo
-            $_SESSION['prod_message'] = 'success';
-            header("Location: form_prodotto.php");
-            exit();
-        }
-    }
-
-    if ($tipo_prod === "sale") {
-
-        $tipo_sala = mysqli_real_escape_string($db, $post_spec_array['tipo_sala']);
-        $nome_sala = mysqli_real_escape_string($db, $post_spec_array['nome_sala']);
-        $capienza = mysqli_real_escape_string($db, $post_spec_array['capienza']);
-
-        $sql_sale = "INSERT INTO `sala` (`Sala_Tipo`, `Sala_Nome`, `Sala_Capienza`, `Prodotto_id`) VALUES ('$tipo_sala', '$nome_sala', '$capienza', '$id')";
-        $result = mysqli_query($db, $sql_sale);
-    
-
-    } elseif ($tipo_prod === "servizi") {
-
-        $tipo_servizio = mysqli_real_escape_string($db, $post_spec_array['tipo_servizio']);
-        $operatore = mysqli_real_escape_string($db, $post_spec_array['operatore']);
-
-        $sql_servizi = "INSERT INTO `servizio` (`Servizio_tipo`, `Servizio_Operatore_Nome`, `Servizio_Operatore_Cognome`, `Prodotto_id`) VALUES ('$tipo_servizio', '$operatore', '$operatore', '$id')";
-
-
-    } elseif ($tipo_prod === "corsi") {
-
-        $nome_corso = mysqli_real_escape_string($db, $post_spec_array['nome_corso']);
-        $lezioni = mysqli_real_escape_string($db, $post_spec_array['lezioni']);
-        $insegnante_corso = mysqli_real_escape_string($db, $post_spec_array['insegnante_corso']);
-        
-        $sql_corsi = "INSERT INTO `corso` (`Corso_nome`, `Corso_Operatore_Nome`, `Corso_Operatore_Cognome`, `N_Lez`, `Prodotto_id`) VALUES ('$nome_corso', '$insegnante_corso', '$insegnante_corso', '$lezioni', '$id')";
-        
-    }
-
-}*/
-
 function check_existing_product($db, $id) {
 
     $sql = "SELECT * FROM prodotto WHERE Prodotto_id = '$id'";
@@ -156,7 +80,7 @@ function creaProdotto($db, $post_gen_array, $post_spec_array) {
             $data = null; 
         }
 
-        $sql_corsi = "INSERT INTO `corso` (`Corso_nome`, `Corso_Operatore_Nome`, `Corso_Operatore_Cognome`, `Corso_Data`, `N_Lez`, `Prodotto_id`) 
+        $sql_corsi = "INSERT INTO `corso` (`Corso_nome`, `Corso_Operatore_Nome`, `Corso_Operatore_Cognome`, `Corso_Data`, `N_iscritti`, `Prodotto_id`) 
                       VALUES ('$nome_corso', '$nome_insegnante_corso', '$cognome_insegnante_corso', '$data', '$lezioni', '$id');";
         $result = mysqli_query($db, $sql_corsi);
 
@@ -223,7 +147,7 @@ function aggiornaProdotto($db, $post_gen_array, $post_spec_array) {
             $data = null; 
         }
 
-        $sql_corsi = "UPDATE `corso` SET `Corso_nome` = '$nome_corso', `Corso_Operatore_Nome`='$nome_insegnante_corso', `Corso_Operatore_Cognome`='$cognome_insegnante_corso', `Corso_Data`='$data', `N_Lez`='$lezioni'
+        $sql_corsi = "UPDATE `corso` SET `Corso_nome` = '$nome_corso', `Corso_Operatore_Nome`='$nome_insegnante_corso', `Corso_Operatore_Cognome`='$cognome_insegnante_corso', `Corso_Data`='$data', `N_iscritti`='$lezioni'
                       WHERE corso.Prodotto_id = '$id';";
         $result = mysqli_query($db, $sql_corsi);
 

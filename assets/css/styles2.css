@@ -22,6 +22,34 @@
   padding-left: 10px; 
 }
 
+/*-BACK BUTTON*/
+.back-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 0.4rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.back-btn .arrow-icon {
+  color: #f4623a;
+  font-size: 1.4rem;
+  transition: transform 0.2s ease;
+}
+
+.back-btn:hover .arrow-icon {
+  transform: translateX(-2px);
+}
+
+.brand-text {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #f8f9fa;
+  display: inline-block;
+}
+
 
 /*HOME*/
 
