@@ -1,0 +1,26 @@
+function annullaOrdine(ordine_id) {
+Swal.fire({
+    title: 'Sei sicuro?',
+    text: "Vuoi davvero annullare l'ordine?",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Sì, annulla',
+    cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('assets/php/annulla_ordine.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ ordine_id: ordine_id })
+        })
+        .then(res => res.text())
+        .then(msg => {
+          location.reload(); // Ricarica la pagina per aggiornare lo stato
+        })
+        .catch(err => {
+          console.error('Errore:', err);
+          alert("Si è verificato un errore durante l'annullamento.");
+        });
+      }
+  });
+}
