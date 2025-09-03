@@ -135,96 +135,75 @@ function aggiornaBadgeCarrello(utente_cf) {
 
   }
   
-  // === CONFIG ===
-  const BUSINESS_HOURS = { start: 8, end: 20, stepMin: 120 }; // 08→20 ogni 120'
-  const CLOSED_DAYS    = [0]; // 0=Dom, 6=Sab
-  const TZ             = 'Europe/Rome';
-  const SALA_ID        = window.currentSalaId || 1; // imposta l’id della sala da qualche parte
+  // Configurazione “tipo Bookly”
+  const BUSINESS_HOURS = { start: 8, end: 20, stepMin: 120 }; // 08:00→20:00 ogni 120'
+  const CLOSED_DAYS    = [0];   // 0=Dom, 6=Sab. Metti [0,6] se chiuso weekend.
+  const EXCEPTIONS     = {
+      "2025-09-03": ["12:00","14:00"],  // Da sincronizzare con gli ordini!!!!!!!!!!!!!!!!!!!!!!
+      "2025-09-04": ["10:00","18:00"], 
+  };
 
   const slotsHeader = document.getElementById('slotsHeader');
   const slotsBody   = document.getElementById('slotsBody');
   const durataOreEl = document.getElementById('durataOre');
   const dtLocalEl   = document.getElementById('dataPrenotazione');
 
-  // 👇 MAPPA dinamica: { 'YYYY-MM-DD': [ {start:'HH:MM', end:'HH:MM'}, ... ] }
-  let BUSY = {};
+  // Inizializza input datetime (min = adesso, step 15')
+  (function initDateTimeLocal(){
+    if(!dtLocalEl) return;
+    const now = new Date();
+    now.setSeconds(0,0);
+    const step = 15, m = now.getMinutes();
+    now.setMinutes(m + (step - (m % step)) % step);
+    dtLocalEl.min   = toLocalDatetimeValue(now);
+    dtLocalEl.step  = 900; // 15 minuti
+    if(!dtLocalEl.value) dtLocalEl.value = toLocalDatetimeValue(now);
+    if(!durataOreEl.value) durataOreEl.value = 1;
+  })();
 
-  // ---- utils ----
-  const pad = n => String(n).padStart(2,'0');
-  const toYMD = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-  const t2m   = s => { const [h,m]=s.split(':').map(Number); return h*60+m; };
-  const overlap = (a0,a1,b0,b1) => Math.max(a0,b0) < Math.min(a1,b1);
-
-  function toLocalDatetimeValue(d){
-    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }
-
-  function buildTimes({start,end,stepMin}){
-    const out=[]; for(let m=start*60; m<=end*60; m+=stepMin){
-      out.push(`${pad(Math.floor(m/60))}:${pad(m%60)}`);
-    } return out;
-  }
-
-  // ---- calendario ----
+  // Calendario inline
   const fp = flatpickr('#cal', {
     inline: true,
     locale: 'it',
     minDate: 'today',
     disable: [ d => CLOSED_DAYS.includes(d.getDay()) ],
-    onReady: (_, __, inst) => { loadBusyForMonth(inst); },
-    onMonthChange: (_, __, inst) => { loadBusyForMonth(inst); },
-    onChange: (sel) => updateSlots(sel[0]),
+    onReady: (sel, str, inst) => updateSlots(inst.selectedDates[0] || new Date()),
+    onChange: (sel) => updateSlots(sel[0])
   });
 
-  async function loadBusyForMonth(inst){
-    const base = new Date(inst.currentYear, inst.currentMonth, 1);
-    const from = `${inst.currentYear}-${pad(inst.currentMonth+1)}-01`;
-    const last = new Date(inst.currentYear, inst.currentMonth+1, 0).getDate();
-    const to   = `${inst.currentYear}-${pad(inst.currentMonth+1)}-${pad(last)}`;
-
-    try{
-      const res = await fetch(`/api/availability.php?sala_id=${encodeURIComponent(SALA_ID)}&from=${from}&to=${to}`);
-      BUSY = await res.json();  // { '2025-09-01': [{start:'12:00',end:'14:00'}], ... }
-    }catch(e){
-      console.error('Errore caricando disponibilità', e);
-      BUSY = {};
-    }
-    updateSlots(fp.selectedDates[0] || base);
-  }
-
-  // ---- stampa slot del giorno selezionato (disabilita se si sovrappone ai busy) ----
+  // Genera e stampa gli slot della data scelta
   function updateSlots(date){
     if(!date) return;
-    const day = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const label = day.toLocaleDateString('it-IT',{ weekday:'short', day:'2-digit', month:'short' });
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const label = d.toLocaleDateString('it-IT',{ weekday:'short', day:'2-digit', month:'short' });
     slotsHeader.textContent = label.charAt(0).toUpperCase() + label.slice(1);
 
-    const intervals = (BUSY[toYMD(day)] || []); // [{start,end}...]
-    const durMin = Math.max(1, parseInt(durataOreEl?.value || 1, 10)) * 60;
+    const disabledList = EXCEPTIONS[toYMD(d)] || [];
+    const times = buildTimes(BUSINESS_HOURS);
 
-    const items = buildTimes(BUSINESS_HOURS).map(t => {
-      const startMin = t2m(t);
-      const endMin   = startMin + durMin;
-      const disabled = intervals.some(({start,end}) => overlap(startMin, endMin, t2m(start), t2m(end)));
-      return slotTemplate(t, disabled);
-    });
-
-    slotsBody.innerHTML = items.join('') || `<div class="p-3">Nessuno slot disponibile</div>`;
-    attachSlotHandlers(day);
+    slotsBody.innerHTML = times.map(t => slotTemplate(t, disabledList.includes(t))).join('');
+    attachSlotHandlers(d);
   }
 
-  function slotTemplate(time, disabled=false){
-    return `
-      <div class="slot ${disabled?'disabled':''}" data-time="${time}">
-        <input type="radio" name="slot" ${disabled?'disabled':''}/>
-        <span>${time}</span>
-      </div>`;
+  function buildTimes({start,end,stepMin}){
+    const out=[]; for(let m=start*60; m<=end*60; m+=stepMin){
+      const hh=String(Math.floor(m/60)).padStart(2,'0');
+      const mm=String(m%60).padStart(2,'0');
+      out.push(`${hh}:${mm}`);
+    } return out;
+  }
+
+  function slotTemplate(time, disabled){
+    return `<div class="slot ${disabled?'disabled':''}" data-time="${time}">
+              <input type="radio" name="slot" ${disabled?'disabled':''}/>
+              <span>${time}</span>
+            </div>`;
   }
 
   function attachSlotHandlers(date){
-    [...document.querySelectorAll('#slotsBody .slot:not(.disabled)')].forEach(el=>{
+    [...slotsBody.querySelectorAll('.slot:not(.disabled)')].forEach(el=>{
       el.addEventListener('click', ()=>{
-        document.querySelectorAll('#slotsBody .slot').forEach(s=>s.classList.remove('active'));
+        slotsBody.querySelectorAll('.slot').forEach(s=>s.classList.remove('active'));
         el.classList.add('active');
         el.querySelector('input').checked = true;
 
@@ -232,7 +211,7 @@ function aggiornaBadgeCarrello(utente_cf) {
         const start = new Date(date);
         start.setHours(hh, mm, 0, 0);
 
-        const hours = Math.max(1, parseInt(durataOreEl?.value || 1,10));
+        const hours = parseInt(durataOreEl?.value || 1,10);
         const end   = new Date(start.getTime() + hours*60*60*1000);
 
         if(dtLocalEl) dtLocalEl.value = toLocalDatetimeValue(start);
@@ -242,7 +221,21 @@ function aggiornaBadgeCarrello(utente_cf) {
     });
   }
 
-  // se cambia la durata, ricalcola gli slot del giorno corrente
-  if(durataOreEl){
-    durataOreEl.addEventListener('input', () => updateSlots(fp.selectedDates[0] || new Date()));
+  function toYMD(d){
+    const p = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
   }
+  function toLocalDatetimeValue(d){
+    const p=n=>String(n).padStart(2,'0');
+    return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+
+  // Bottone "Conferma prenotazione"
+  window.confermaPrenotazione = function(){
+    const start = window.__selectedStart;
+    const hours = parseInt(durataOreEl?.value || 1,10);
+    if(!start || !hours){ alert('Seleziona una data e una fascia oraria.'); return; }
+    const end = new Date(start.getTime() + hours*60*60*1000);
+
+    alert('Prenotazione registrata!');
+  };
