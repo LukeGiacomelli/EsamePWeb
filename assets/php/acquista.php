@@ -29,6 +29,26 @@ if ($result->num_rows === 0) {
   exit;
 }
 
+
+// Check se le date sono selezionate
+$sql = "SELECT 
+          c.data_prenotazione, 
+          c.Prodotto_id
+        FROM carrello c
+        JOIN prodotto p ON p.Prodotto_id = c.Prodotto_id
+        WHERE c.U_cf = ? 
+        AND c.Prodotto_id LIKE 'S%'
+        AND c.data_prenotazione IS NULL";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $utente_cf);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows >= 0) {
+  echo "Selezionare la data per tutte le sale...";
+  exit;
+}
+
 // Genera ID ordine univoco
 $ordine_id = uniqid("ORD");
 
@@ -69,3 +89,5 @@ $delete->bind_param("s", $utente_cf);
 $delete->execute();
 
 echo "Grazie per l'acquisto!";
+
+?>

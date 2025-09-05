@@ -1,6 +1,6 @@
 <?php
 
-function modificaTel($db, $nuovoTel, $cf) {
+/*function modificaTel($db, $nuovoTel, $cf) {
     $sql = "UPDATE utente SET U_telefono = '$nuovoTel' WHERE U_cf = '$cf'";
     $result = mysqli_query($db, $sql);
 
@@ -9,6 +9,31 @@ function modificaTel($db, $nuovoTel, $cf) {
     } else {
         $_SESSION['tel'] = $nuovoTel;
         $_SESSION['success_message'] = 'Numero di telefono modificato con successo!';
+    }
+
+    header("location: pg_personale_ut.php");
+    exit();
+} */
+
+function modificaTel($db, $nuovoTel, $cf) {
+    // check for non-digits
+    if (!ctype_digit($nuovoTel)) {
+        $_SESSION['error_message'] = 'Il numero di telefono deve contenere solo cifre.';
+    } 
+    // check for length > 10
+    else if (strlen($nuovoTel) > 10) {
+        $_SESSION['error_message'] = 'Il numero di telefono non può superare le 10 cifre.';
+    } 
+    else {
+        $sql = "UPDATE utente SET U_telefono = '$nuovoTel' WHERE U_cf = '$cf'";
+        $result = mysqli_query($db, $sql);
+
+        if (!$result) {
+            $_SESSION['error_message'] = 'Errore nell\'inserimento nel database';
+        } else {
+            $_SESSION['tel'] = $nuovoTel;
+            $_SESSION['success_message'] = 'Numero di telefono modificato con successo!';
+        }
     }
 
     header("location: pg_personale_ut.php");

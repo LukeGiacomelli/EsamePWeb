@@ -53,7 +53,7 @@ while ($row = $result->fetch_assoc()) {
     echo "<div style='flex-grow: 1;'>";
   
     if (!empty($row['Corso_Nome'])) {
-      echo "<strong>Nome:</strong> " . htmlspecialchars($row['Corso_Nome']) . " [" . htmlspecialchars($row['Corso_Data']) . "]<br>";
+      echo "<strong>Nome:</strong> " . htmlspecialchars($row['Corso_Nome']) . "<span class='badge bg-info text-dark ms-2'>" . $row['Corso_Data'] . "</span>";
     } elseif (!empty($row['Sala_Nome'])) {
       echo "<strong>Nome:</strong> " . htmlspecialchars($row['Sala_Nome']) . "<br>";
     } elseif (!empty($row['Servizio_Tipo'])) {
@@ -66,22 +66,31 @@ while ($row = $result->fetch_assoc()) {
 
     // Mostra data e durata se presenti
     if (!empty($row['data_prenotazione']) && !empty($row['durata_prenotazione'])) {
+      
       $dataFormatted = date("d/m/Y H:i", strtotime($row['data_prenotazione']));
       echo "<strong>Prenotazione:</strong> $dataFormatted<br>";
-      echo "<strong>Durata:</strong> {$row['durata_prenotazione']} ora/e<br>";
+      
+     $durata = (int)$row['durata_prenotazione'];
+
+     echo "<strong>Durata:</strong> $durata ora/e<br>";
+
     }
 
     echo "<div class='d-flex align-items-center' style='gap: 0.5rem;'>";
+
     if (!empty($row['Sala_Nome'])) {
+
       echo "<button class='btn btn-sm btn-outline-secondary' onclick='modificaQuantita(\"decrementa\", \"{$row['Prodotto_id']}\")' disabled>−</button>";
       echo "<span id='quantita-{$row['Prodotto_id']}' disabled>{$row['C_quantità']}</span>";
       echo "<button class='btn btn-sm btn-outline-secondary' onclick='modificaQuantita(\"incrementa\", \"{$row['Prodotto_id']}\")' disabled>+</button>";
+
     }else{
       echo "<button class='btn btn-sm btn-outline-secondary' onclick='modificaQuantita(\"decrementa\", \"{$row['Prodotto_id']}\")'>−</button>";
       echo "<span id='quantita-{$row['Prodotto_id']}'>{$row['C_quantità']}</span>";
       echo "<button class='btn btn-sm btn-outline-secondary' onclick='modificaQuantita(\"incrementa\", \"{$row['Prodotto_id']}\")'>+</button>";
     }
     echo "<button class='btn btn-sm btn-primary ms-2' onclick='rimuoviDalCarrello(\"{$row['Prodotto_id']}\")'>Rimuovi</button>";
+    
     if (!empty($row['Sala_Nome']) && empty($row['data_prenotazione']) && empty($row['durata_prenotazione'])) {
       echo "<button 
               class='btn btn-outline-secondary ms-auto calendario-btn' 

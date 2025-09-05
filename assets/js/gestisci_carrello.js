@@ -19,7 +19,10 @@ function modificaQuantita(azione, prodotto_id) {
       aggiornaBadgeCarrello(document.querySelector('.cart-badge')?.dataset.utente);
     });
   }
-  
+
+
+
+
   function rimuoviDalCarrello(prodotto_id) {
     fetch('assets/php/rimuovi_dal_carrello.php', {
       method: 'POST',
