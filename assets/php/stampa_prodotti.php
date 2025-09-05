@@ -8,7 +8,7 @@
 
         // Estrazione dei dati dal database
         $id_prodotto = $row["Prodotto_id"];
-        $prezzo = $row["Prodotto_prezzo"];
+        $prezzo = $row["Prodotto_prezzo"] . "€";
         $immagine = $row["Prodotto_immagine"] ?: "default.jpg";
         $descrizione = $row["Prodotto_descrizione"];
         $badge_text = "Prodotto";
@@ -23,6 +23,7 @@
         } elseif (isset($row["Sala_Tipo"])) {
             $badge_text = $row["Sala_Tipo"];
             $nome_prodotto = $row["Sala_Nome"];
+            $prezzo = $row["Prodotto_prezzo"] . "€/h";
         } elseif (isset($row["Servizio_Tipo"])) {
             $badge_text = "Servizio";
             $nome_prodotto = $row["Servizio_Tipo"];
@@ -57,7 +58,7 @@
                         <?php } ?>
                         
                         <!-- Prezzo del prodotto -->
-                        <p><strong>Prezzo:</strong> <?php echo $prezzo; ?> €</p>
+                        <p><strong>Prezzo:</strong> <?php echo $prezzo; ?></p>
                     </div>
                 </div>
                 

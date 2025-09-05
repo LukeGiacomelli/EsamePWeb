@@ -62,7 +62,7 @@ function creaProdotto($db, $post_gen_array, $post_spec_array) {
         if ($count_check > 0) {
             // Messaggio di successo
             $_SESSION['prod_message'] = 'success';
-            header("Location: form_prodotto.php");
+            header("Location: prenota.php");
             exit();
         }
         }
