@@ -53,7 +53,7 @@ while ($row = $result->fetch_assoc()) {
     echo "<div style='flex-grow: 1;'>";
   
     if (!empty($row['Corso_Nome'])) {
-      echo "<strong>Nome:</strong> " . htmlspecialchars($row['Corso_Nome']) . " [" . htmlspecialchars($row['Corso_Data']) . "]<br>";
+      echo "<strong>Nome:</strong> " . htmlspecialchars($row['Corso_Nome']) . "<span class='badge bg-info text-dark ms-2'>" . $row['Corso_Data'] . "</span>";
     } elseif (!empty($row['Sala_Nome'])) {
       echo "<strong>Nome:</strong> " . htmlspecialchars($row['Sala_Nome']) . "<br>";
     } elseif (!empty($row['Servizio_Tipo'])) {
@@ -61,8 +61,12 @@ while ($row = $result->fetch_assoc()) {
     } else {
       echo "<strong>Nome:</strong> Error... <br>";
     }
-  
-    echo "<strong>Prezzo:</strong> €" . number_format($row['Prodotto_prezzo'], 2) . "<br>";
+    
+    if (!empty($row['durata_prenotazione'])){
+      echo "<strong>Prezzo:</strong> €" . (number_format($row['Prodotto_prezzo'], 2) * $row['durata_prenotazione']) . "<br>";
+    } else {
+      echo "<strong>Prezzo:</strong> €" . number_format($row['Prodotto_prezzo'], 2) . "<br>";
+    }
 
     // Mostra data e durata se presenti
     if (!empty($row['data_prenotazione']) && !empty($row['durata_prenotazione'])) {
