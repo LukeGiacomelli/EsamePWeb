@@ -1,20 +1,24 @@
+
+//prodID è una variabile globale dichiarata la prima volta che si accede a loadComments.
+
 function loadComments(prodottoId) {
-    fetch('assets/php/commenti.php?prodotto_id=' + prodottoId.id)
+  prodID = prodottoId.id;
+    fetch('assets/php/commenti.php?prodotto_id=' + prodID)
       .then(res => res.text())
       .then(html => {
         document.getElementById('commentiEsistenti').innerHTML = html;
       });
   }
   
-  function inviaCommento(prodottoId, utente_cf) {
+function inviaCommento(prodottoId, utente_cf) {
     const messaggio = document.getElementById('messaggio').value;
     const voto = document.getElementById('voto').value;
-  
+    
     fetch('assets/php/salva_commenti.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
-        prodotto_id: prodottoId.id,
+        prodotto_id: prodID,
         messaggio,
         punteggio: voto,
         utente_id: utente_cf
@@ -22,7 +26,7 @@ function loadComments(prodottoId) {
     })
     .then(res => res.text())
     .then(() => {
-      loadComments(prodottoId);
+      bootstrap.Modal.getInstance(document.getElementById('commentModal')).hide();
       document.getElementById('messaggio').value = '';
     });
   }

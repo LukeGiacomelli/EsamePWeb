@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ];
 
             $tipo = $_POST['tipo_md'];
-
+            
             if ($tipo === "Sala") {
                 $post_specific_data = [
                     'tipo_sala' => $_POST['tipo_sala_md'],
@@ -172,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <label for="tipo">Tipo di prodotto:</label>
                         <select id="tipo" name="tipo" class="form-select" onchange="showFields()" required>
-                            <option value="">-- Seleziona --</option>
+                            <option value="" selected>-- Seleziona --</option>
                             <option value="sale">Sala</option>
                             <option value="servizi">Servizio</option>
                             <option value="corsi">Corso</option>
@@ -183,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="sale-fields" class="dynamic-field" style="display: none;">
                             <label for="tipo_sala">Tipo di sala:</label>
                             <select id="tipo_sala" name="tipo_sala" class="form-select">
-                                <option value="sala prove">Sala Prove</option>
+                                <option value="sala prove" selected>Sala Prove</option>
                                 <option value="sala registrazione">Sala di Registrazione</option>
                             </select><br>
 
@@ -198,7 +198,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="servizi-fields" class="dynamic-field" style="display: none;">
                             <label for="tipo_servizio">Tipo di servizio:</label>
                             <select id="tipo_servizio" name="tipo_servizio" class="form-select">
-                                <option value="mix">Mix</option>
+                                <option value="mix" selected>Mix</option>
                                 <option value="master">Master</option>
                                 <option value="mix&master">Mix & Master</option>
                             </select><br>
@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <label for="lezioni">Numero di lezioni:</label>
                             <select id="lezioni" name="lezioni" class="form-select">
-                                <option value="15">15</option>
+                                <option value="15" selected>15</option>
                                 <option value="30">30</option>
                             </select><br>
 
@@ -302,7 +302,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="sale-fieldsm" class="dynamic-fieldm" style="display: none;">
                             <label for="tipo_sala_md">Tipo di sala:</label>
                             <select id="tipo_sala_md" name="tipo_sala_md" class="form-select">
-                                <option value="Sala prove">Sala Prove</option>
+                                <option value="Sala prove" selected>Sala Prove</option>
                                 <option value="Sala registrazione">Sala di Registrazione</option>
                             </select><br>
 
@@ -317,7 +317,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div id="servizi-fieldsm" class="dynamic-fieldm" style="display: none;">
                             <label for="tipo_servizio">Tipo di servizio:</label>
                             <select id="tipo_servizio_md" name="tipo_servizio_md" class="form-select">
-                                <option value="Mix">Mix</option>
+                                <option value="Mix" selected>Mix</option>
                                 <option value="Master">Master</option>
                                 <option value="Mix&Master">Mix & Master</option>
                             </select><br>
@@ -342,7 +342,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <label for="lezioni">Numero di lezioni:</label>
                             <select id="lezioni_md" name="lezioni_md" class="form-select">
-                                <option value="15">15</option>
+                                <option value="15" selected>15</option>
                                 <option value="30">30</option>
                             </select><br>
 

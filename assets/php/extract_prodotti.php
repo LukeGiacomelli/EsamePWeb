@@ -67,7 +67,13 @@
     </script>
     
     <?php
-    $where_field = ($where_field != "" ? "WHERE " . substr($where_field, 0, -4) : "");
+    $where_field = rtrim($where_field);                    // togli spazi finali
+    $where_field = preg_replace('/\s*(AND|,)\s*$/i', '', $where_field); // rimuovi AND o virgola finale
+    $where_field = $where_field !== '' ? 'WHERE '.$where_field : '';
+
+    //Non funziona beneeeeeeeeeeeeeeee
+
+    
     $sql = "SELECT 
     p.Prodotto_id, 
     p.Prodotto_prezzo, 
