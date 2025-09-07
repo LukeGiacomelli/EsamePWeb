@@ -83,7 +83,7 @@ if ($ordini->num_rows === 0) {
                 $extra = " <span class='badge bg-info text-dark ms-2'>Prenotato per: $dataPrenotazione</span>";
             }else if (!empty($prodotto['Corso_Nome']) && !empty($prodotto['Corso_Data'])){
                 $dataPrenotazione = date('(d/m/Y H:i)', strtotime($prodotto['Corso_Data']));
-                $extra = " <span class='badge bg-warning text-dark ms-2'>Data: $dataPrenotazione</span>";
+                $extra = "<span class='badge bg-warning text-dark ms-2'>Data: $dataPrenotazione</span>";
             }
 
             $totale += $tot;
