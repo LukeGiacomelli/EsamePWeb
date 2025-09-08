@@ -72,8 +72,6 @@ function showFields() {
         document.getElementById("servizi-fields").style.display = "block";
     } else if (tipo === "corsi") {
         document.getElementById("corsi-fields").style.display = "block";
-    } else if (tipo === "masterclass") {
-        document.getElementById("masterclass-fields").style.display = "block";
     }
 }
 
@@ -88,8 +86,6 @@ function showFieldsM(type) {
         document.getElementById("servizi-fieldsm").style.display = "block";
     } else if (tipo === "Corso") {
         document.getElementById("corsi-fieldsm").style.display = "block";
-    } else if (tipo === "Masterclass") {
-        document.getElementById("masterclass-fieldsm").style.display = "block";
     }
 }
 
@@ -117,25 +113,20 @@ function openModalModButton(caller) {
             document.getElementById("img_md").value = values[2];
             document.getElementById("desc_md").value = values[3];
 
-            document.getElementById("nome_masterclass_md").value = values[4];
-            document.getElementById("nome_insegnante_masterclass_md").value = values[10];
-            document.getElementById("cognome_insegnante_masterclass_md").value = values[11];
-            document.getElementById("data_md").value = values[6];
-
             document.getElementById("tipo_servizio_md").value = values[9];
             document.getElementById("nome_operatore_md").value = values[12];
             document.getElementById("cognome_operatore_md").value = values[13];
 
             document.getElementById("nome_corso_md").value = values[4];
-            document.getElementById("lezioni_md").value = values[5];
             document.getElementById("nome_insegnante_corso_md").value = values[10];
             document.getElementById("cognome_insegnante_corso_md").value = values[11];
+            document.getElementById("data_md").value = values[6];
 
             document.getElementById("tipo_sala_md").value = values[8];
             document.getElementById("nome_sala_md").value = values[7];
             document.getElementById("capienza_md").value = values[14];
 
-            var tipo_prod = values[0].includes("Cm") ? "Masterclass" : values[0].includes("SV") ? "Servizio" : values[0].includes("C") ? "Corso" : "Sala";
+            var tipo_prod = values[0].includes("C") ? "Corso" : values[0].includes("SV") ? "Servizio" :  "Sala";
             document.getElementById("tipo_md").value = tipo_prod;
 
             showFieldsM(tipo_prod);

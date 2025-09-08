@@ -94,40 +94,29 @@ include('assets/php/session.php');
     <!-- Services-->
     <section class="page-section" id="services">
         <div class="container px-4 px-lg-5">
-            <h2 class="text-center mt-0">I nostri servizi</h2>
+            <h2 class="text-center mt-0">Cosa offriamo</h2>
             <hr class="divider" />
             <div class="row gx-4 gx-lg-5">
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="mt-5">
                         <div class="mb-2"><i class="bi bi-mic fs-1 text-primary"></i></div>
                         <h3 class="h4 mb-2">Affitto di stanze</h3>
-                        <p class="text-muted mb-0">4 sale di registrazione fra cui scegliere. Affitto disponibile a ore
-                            o a giornate (10ore). Inoltre è possibile acquistare dei carnet di ore da usare in archi di
-                            tempo più lunghi</p>
+                        <p class="text-muted mb-0">Molteplici sale di registrazione fra cui scegliere. Affitto a ore. Scegli il giorno, l'ora di inizio, la durata e prenota!</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="mt-5">
                         <div class="mb-2"><i class="bi bi-music-note-list fs-1 text-primary"></i></i></div>
                         <h3 class="h4 mb-2">Affitto di Sale prova</h3>
-                        <p class="text-muted mb-0">2 sale prova fra cui scegliere. Affitto disponibile a ore o a
-                            giornate (10ore). Inoltre è possibile acquistare dei carnet di ore da usare in archi di
-                            tempo più lunghi.</p>
+                        <p class="text-muted mb-0"> Molteplici sale prova fra cui scegliere. Affitto a ore. Scegli il giorno, l'ora di inizio, la durata e prenota!</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="mt-5">
                         <div class="mb-2"><i class="bi bi-stars fs-1 text-primary"></i></div>
-                        <h3 class="h4 mb-2">Corsi e Masterclass</h3>
-                        <p class="text-muted mb-0">Scopri i nostri corsi e le nostre prossime Masterclass, e prenota!
+                        <h3 class="h4 mb-2">Workshop</h3>
+                        <p class="text-muted mb-0">Scopri i nostri Workshop! Se le date al momento disponibili non sono per te ideali, non ti preoccupare! Riproponiamo continuamente Workshop con nuove date!
                         </p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 text-center">
-                    <div class="mt-5">
-                        <div class="mb-2"><i class="bi-file-earmark-music fs-1 text-primary"></i></i></div>
-                        <h3 class="h4 mb-2">Mix e Master</h3>
-                        <p class="text-muted mb-0">Non vediamo l'ora di aiutarti a realizzare i tuoi progetti!</p>
                     </div>
                 </div>
             </div>

@@ -20,6 +20,20 @@ if (!$res || $res['stato'] !== 'In elaborazione') {
     exit;
 }
 
+//Incremento iscritti per corso
+$sub = $conn->prepare("UPDATE corso AS c
+                        INNER JOIN prodotto AS p
+                        ON c.Prodotto_id = p.Prodotto_id
+                        INNER JOIN ordine_prodotto AS op
+                        ON p.Prodotto_id = op.prodotto_id
+                        INNER JOIN ordine AS o
+                        ON op.ordine_id = o.Ordine_id
+                        SET c.N_Iscritti = (c.N_Iscritti + 1)
+                        WHERE o.Ordine_id = ?"
+                    );
+$sub->bind_param("s", $ordine_id);
+$sub->execute();
+
 // Annulla l'ordine
 $update = $conn->prepare("UPDATE ordine SET stato = 'Confermato' WHERE Ordine_id = ?");
 $update->bind_param("s", $ordine_id);
