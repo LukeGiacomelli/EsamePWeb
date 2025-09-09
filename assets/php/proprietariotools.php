@@ -62,19 +62,19 @@ function creaProdotto($db, $post_gen_array, $post_spec_array) {
         if ($count_check > 0) {
             // Messaggio di successo
             $_SESSION['prod_message'] = 'success';
-            header("Location: form_prodotto.php");
+            header("Location: prenota.php");
             exit();
         }
         }
 
-    } elseif (($tipo_prod === "corsi") || ($tipo_prod === "masterclass")) {
+    } elseif (($tipo_prod === "corsi")) {
 
         $nome_corso = mysqli_real_escape_string($db, $post_spec_array['nome_corso']);
         $lezioni = mysqli_real_escape_string($db, $post_spec_array['lezioni']);
         $nome_insegnante_corso = mysqli_real_escape_string($db, $post_spec_array['nome_insegnante_corso']);
         $cognome_insegnante_corso = mysqli_real_escape_string($db, $post_spec_array['cognome_insegnante_corso']);
 
-        if ($tipo_prod === "masterclass"){
+        if ($tipo_prod === "corso"){
             $data = mysqli_real_escape_string($db, $post_spec_array['data_corso']);
         }else{
             $data = null; 
@@ -134,14 +134,14 @@ function aggiornaProdotto($db, $post_gen_array, $post_spec_array) {
             die("Errore nell'inserimento del servizio: " . mysqli_error($db));
         }
 
-    } elseif (($tipo_prod === "Corso") || ($tipo_prod === "Masterclass")) {
+    } elseif (($tipo_prod === "Corso")) {
 
         $nome_corso = mysqli_real_escape_string($db, $post_spec_array['nome_corso']);
         $lezioni = mysqli_real_escape_string($db, $post_spec_array['lezioni']);
         $nome_insegnante_corso = mysqli_real_escape_string($db, $post_spec_array['nome_insegnante_corso']);
         $cognome_insegnante_corso = mysqli_real_escape_string($db, $post_spec_array['cognome_insegnante_corso']);
 
-        if ($tipo_prod === "masterclass"){
+        if ($tipo_prod === "Corso"){
             $data = mysqli_real_escape_string($db, $post_spec_array['data_corso']);
         }else{
             $data = null; 

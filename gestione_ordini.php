@@ -1,6 +1,6 @@
 <?php 
 
-    $nomepagina = "I MIEI ORDINI";
+    $nomepagina = "GESTIONE ORDINI";
     include('assets/php/session.php');
 ?>
 

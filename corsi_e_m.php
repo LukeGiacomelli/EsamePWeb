@@ -1,5 +1,5 @@
 <?php  
-    $nomepagina = "Corsi e Masterclass";
+    $nomepagina = "Workshop";
     include('assets/php/session.php');
 ?>
 
