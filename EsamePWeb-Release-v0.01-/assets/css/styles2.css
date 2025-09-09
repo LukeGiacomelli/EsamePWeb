@@ -1,0 +1,443 @@
+/*GENERALI*/ 
+.picker-wrap{display:grid;grid-template-columns:1fr 280px;gap:18px}
+.flatpickr-calendar.inline{box-shadow:none;border:0}
+.slots{border:1px solid #e6e6e6;border-radius:12px;overflow:hidden}
+.slots-header{background:#f08a24;color:#fff;font-weight:700;padding:12px 16px}
+.slot{display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid #eee;cursor:pointer}
+.slot input{appearance:none;width:18px;height:18px;border:2px solid #ddd;border-radius:50%}
+.slot.active,.slot:hover{background:#fff7ef}
+.slot.active input{border-color:#f08a24;box-shadow:inset 0 0 0 5px #f08a24}
+.slot.disabled{opacity:.45;cursor:not-allowed;text-decoration:line-through}
+@media (max-width: 768px){.picker-wrap{grid-template-columns:1fr}}  
+
+/* Modale più comoda e contenuti centrati */
+#calendarioModal .modal-dialog{ max-width:1000px; }
+#calendarioModal .modal-body{ display:flex; flex-direction:column; align-items:center; }
+
+/* Griglia: calendario (sx) + slots (dx), centrati */
+#calendarioModal .picker-wrap{
+  width:100%;
+  display:grid;
+  grid-template-columns: 360px 280px;
+  gap:24px;
+  justify-content:center;   /* CENTRA l'intero blocco */
+  align-items:stretch;      
+  margin-top:.25rem;
+}
+
+/* Calendario inline Flatpickr (il vero elemento visibile) */
+#calendarioModal .flatpickr-calendar.inline{
+  width:360px;
+  border:1px solid #eee;
+  border-radius:12px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+
+/* Colonna slots */
+#calendarioModal .slots{
+  width:280px;
+  border:1px solid #eee;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  display:flex;           
+  flex-direction:column;   
+  min-height:0;             
+}
+#calendarioModal .slots-header{
+  background:#ef6c00; color:#fff; font-weight:700;
+  text-align:center; padding:12px;
+  flex:0 0 auto;       
+}
+/* PATCH: corpo degli slot che si espande e scrolla se serve */
+#calendarioModal #slotsBody{
+  flex:1 1 auto;
+  overflow:auto;
+  min-height:0;
+}
+
+#calendarioModal #slotsBody .slot{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px; border-top:1px solid #eee; cursor:pointer;
+}
+#calendarioModal #slotsBody .slot input{
+  appearance:none; width:18px; height:18px; border:2px solid #ddd; border-radius:50%;
+}
+#calendarioModal #slotsBody .slot:hover,
+#calendarioModal #slotsBody .slot.active{ background:#fff7ef; }
+#calendarioModal #slotsBody .slot.active input{ border-color:#ef6c00; box-shadow:inset 0 0 0 5px #ef6c00; }
+#calendarioModal #slotsBody .slot.disabled{ opacity:.45; cursor:not-allowed; text-decoration:line-through; }
+
+/* Responsive: stack verticale su mobile */
+@media (max-width: 768px){
+  #calendarioModal .picker-wrap{ grid-template-columns:1fr; }
+  #calendarioModal .flatpickr-calendar.inline,
+  #calendarioModal .slots{ width:100%; max-width:420px; margin:0 auto; }
+}
+/* Footer pulito e centrato */
+#calendarioModal .modal-footer{
+  border-top: 0;
+  padding-top: 0;
+  justify-content: center;
+}
+
+/* Riga con picker + bottone inline */
+#calendarioModal .booking-actions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;        /* va a capo su schermi piccoli */
+}
+
+/* Uniforma altezze input/bottone */
+#calendarioModal .booking-actions .form-control{
+  height: 42px;
+  padding-top: .375rem;
+  padding-bottom: .375rem;
+}
+#calendarioModal .booking-actions .btn{
+  height: 42px;
+  line-height: 1;
+}
+
+/* Mobile: colonna e bottone full-width */
+@media (max-width: 576px){
+  #calendarioModal .booking-actions{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #calendarioModal .booking-actions .btn{
+    width: 100%;
+  }
+}
+    
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.col-md-4 {
+  margin-right: 0 !important; 
+  margin-left: 0 !important; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; 
+}
+
+.col-md-4:not(:last-child) {
+  padding-right: 10px;
+}
+
+.col-md-4:not(:first-child) {
+  padding-left: 10px; 
+}
+
+/*-BACK BUTTON*/
+.back-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 0.4rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.back-btn .arrow-icon {
+  color: #f4623a;
+  font-size: 1.4rem;
+  transition: transform 0.2s ease;
+}
+
+.back-btn:hover .arrow-icon {
+  transform: translateX(-2px);
+}
+
+.brand-text {
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #f8f9fa;
+  display: inline-block;
+}
+
+
+/*HOME*/
+
+/*foto del team*/
+
+.team-photo-small {
+width: 190px; 
+height: 190px; 
+object-fit: cover; 
+margin-bottom: 15px;
+}
+
+
+
+/*SALE*/
+
+/*adattamento immagini portfolio (sale)*/
+
+.img-portfolio{
+width: 100%; /* Fa sì che l'immagine occupi tutta la larghezza della card */
+height: 280px; /* Imposta un'altezza fissa per tutte le immagini */
+object-fit: cover; /* Rende l'immagine scalata per riempire il contenitore senza distorsioni */
+}
+
+
+/*CLASS*/
+
+
+
+/*PRENOTA*/
+
+/*badge categoria (prenota)*/
+
+.badge{
+top: 0.5rem; 
+right: 0.5rem
+}
+
+.position-absolute{
+top: 0.5rem; 
+right: 0.5rem; 
+display: flex; 
+flex-direction: row; 
+gap: 0.25rem;
+}
+
+
+
+/*uniformare la grandezza delle immagini dei prodotti*/
+
+.card-img-top {
+width: 100%; 
+height: 215px; 
+object-fit: cover; 
+}
+
+.card-body {
+text-align: center;
+}
+
+
+
+
+/*dettagli masterclass (con simboli)*/
+
+.details-highlight {
+font-size: 0.850rem;
+line-height: 1.5;
+}
+
+.details-highlight p {
+margin: 0.5rem 0;
+}
+
+.details-highlight .fa-clock {
+color: #007bff; 
+}
+
+.details-highlight .fa-calendar-alt {
+color: #28a745; 
+}
+
+
+.details-highlight .bi {
+font-size: 1.2rem; /*grandezza per entrambe le icone*/
+}
+
+
+
+
+/*scelta quantità mix/master*/
+
+#quantityDisplay {
+font-size: 1rem; 
+}
+
+.btn i {
+font-size: 1.5rem; 
+}
+
+.mb-4 {
+margin-bottom: 1.5rem; 
+}
+
+.btn-quantity {
+font-size: 0.75rem;  
+padding: 0.25rem 0.5rem; 
+}
+
+.mx-2 {
+margin-left: 0.5rem;
+margin-right: 0.5rem;
+}
+
+/*pagina personale utente*/
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f6d365;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+  }
+
+
+
+/* GESTIONE UTENTI SECTION responsive (table e font) */
+/* Section Styling */
+.page-section {
+  padding-top: 40px;  /* Reduced top padding */
+  padding-bottom: 40px;  /* Reduced bottom padding */
+  margin-top: 0;  /* Remove any margin above */
+  margin-bottom: 0;  /* Remove any margin below */
+}
+
+/* Responsive Table Container */
+.table-responsive {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: auto; /* Allow scrolling for smaller screens */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table Styling */
+.table {
+  font-size: calc(0.6rem + 0.3vw); /* Smaller base font size for mobile-friendly scaling */
+  width: 100%; /* Table spans the full width of the container */
+  table-layout: auto; /* Allow columns to resize based on content */
+  word-wrap: break-word; /* Break long words if necessary */
+  border-collapse: collapse; /* Remove gaps between cells for a cleaner look */
+  margin: 0 auto; /* Center the table */
+}
+
+/* Header Styling */
+.table thead th {
+  background-color: #343a40;
+  color: white;
+  text-transform: uppercase;
+  font-size: calc(0.7rem + 0.2vw); /* Smaller header font size */
+  padding: 8px;
+}
+
+/* Table Cells */
+.table td, .table th {
+  vertical-align: middle;
+  text-align: center;
+  word-break: break-word;
+  padding: 8px;
+  border: 1px solid #dee2e6; /* Add subtle borders for clarity */
+  font-size: calc(0.6rem + 0.3vw); /* Smaller, more responsive font size for table cells */
+}
+
+/* Button Styling ONLY for the table section */
+.page-section .btn {
+  font-size: calc(0.6rem + 0.3vw); /* Smaller font for mobile-friendly buttons in the table */
+  padding: 5px 10px;
+  margin: auto;
+}
+
+/* Make buttons wrap if necessary */
+.table td form {
+  display: flex;
+  justify-content: center;
+}
+
+/* Badge Styling */
+.badge-warning {
+  font-size: calc(0.7rem + 0.3vw); /* Responsive font size for badges */
+  padding: 5px 10px;
+  color: #856404;
+  background-color: #fff3cd;
+  border-radius: 5px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+  .table {
+    font-size: calc(0.5rem + 0.4vw); /* Further reduce font size for narrow screens */
+  }
+  .page-section .btn {
+    width: 100%; /* Buttons span full width on smaller screens */
+    margin-bottom: 5px; /* Space between stacked buttons */
+  }
+  .table td {
+    white-space: normal; /* Allow content to wrap */
+  }
+  .table thead th {
+    font-size: calc(0.6rem + 0.3vw); /* Further reduce header font size */
+  }
+
+}
+
+/* Adjustments for extra small screens (phones) */
+@media (max-width: 480px) {
+  .table {
+    font-size: calc(0.5rem + 0.3vw); /* Very small font for tight spaces */
+  }
+  .page-section .btn {
+    font-size: calc(0.5rem + 0.3vw); /* Smaller button font for extra small screens */
+    padding: 4px 8px;
+  }
+  .badge-warning {
+    font-size: calc(0.6rem + 0.2vw); /* Reduce badge font size further */
+  }
+}
+
+
+/*login e registra*/
+.form-label {
+  font-family: 'Roboto', Arial, sans-serif; /* Modern sans-serif font */
+  font-size: 1.1rem; /* Slightly smaller size than input text */
+  font-weight: 500; /* Medium weight for clarity */
+  color: #e5e5e5; /* Subtle light gray for readability on dark background */
+  margin-bottom: 5px; /* Space below label */
+  display: block; /* Ensure label spans a full line */
+  text-align: left; /* Align text to the left */
+}
+
+/* Cartellino HOT */
+.hot-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(45deg, #ff0000, #ff8800);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  animation: pulse 1.2s infinite;
+  z-index: 10;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 1; }
+  50%  { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Cornice fiammeggiante */
+.hot-border {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  animation: fire-border 1.5s infinite linear;
+}
+
+@keyframes fire-border {
+  0%   { box-shadow: 0 0 5px #ff3300, 0 0 15px #ff6600; }
+  50%  { box-shadow: 0 0 10px #ff6600, 0 0 25px #ffcc00; }
+  100% { box-shadow: 0 0 5px #ff3300, 0 0 15px #ff6600; }
+}
