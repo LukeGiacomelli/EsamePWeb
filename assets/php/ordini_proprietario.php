@@ -39,7 +39,7 @@ if ($res->num_rows === 0) {
         $email = $o['U_mail'];
 
         // prodotti di questo ordine
-        $sql2 = "SELECT op.*, co.Corso_Nome, s.Sala_Nome, se.Servizio_Tipo
+        $sql2 = "SELECT op.*, co.Corso_Nome, co.Corso_Data, s.Sala_Nome, se.Servizio_Tipo
                  FROM ordine_prodotto op
                  LEFT JOIN corso co ON co.Prodotto_id = op.prodotto_id
                  LEFT JOIN sala s ON s.Prodotto_id = op.prodotto_id
@@ -69,12 +69,23 @@ if ($res->num_rows === 0) {
                         </thead>
                         <tbody>
                         <?php while ($p = $prodotti->fetch_assoc()):
+                            $extra = '';
+                            //Badge
+                            if (!empty($p['Sala_Nome']) && !empty($p['data_prenotazione'])) {
+                                $dataPrenotazione = date('(d/m/Y H:i)', strtotime($p['data_prenotazione']));
+                                $durataPrenotazione = $p['durata_prenotazione'];
+                                $extra = " <span class='badge bg-info text-dark ms-2'>Prenotato per: $dataPrenotazione ($durataPrenotazione h)</span>";
+                            }else if (!empty($p['Corso_Nome']) && !empty($p['Corso_Data'])){
+                                $dataPrenotazione = date('(d/m/Y H:i)', strtotime($p['Corso_Data']));
+                                $extra = "<span class='badge bg-warning text-dark ms-2'>Data: $dataPrenotazione/span>";
+                            }
+                            
                             $nome = $p['Corso_Nome'] ?? $p['Sala_Nome'] ?? $p['Servizio_Tipo'] ?? 'Generico';
                             $rigaTot = $p['quantita'] * $p['prezzo_unitario'];
                             $totale += $rigaTot;
                         ?>
                             <tr>
-                                <td><?= htmlspecialchars($nome) ?></td>
+                                <td><?= htmlspecialchars($nome) . $extra ?></td>
                                 <td><?= (int)$p['quantita'] ?></td>
                                 <td>€ <?= number_format($p['prezzo_unitario'], 2, ',', '.') ?></td>
                                 <td>€ <?= number_format($rigaTot, 2, ',', '.') ?></td>

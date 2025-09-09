@@ -35,6 +35,7 @@ Swal.fire({
     cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
+        //Conferma ordine
         fetch('assets/php/conferma_ordine.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
