@@ -14,6 +14,7 @@ if (isset($login_email)) {
      ';
  
     }else if ($login_type == 'proprietario'){
+        
         echo '
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
             <div class="text-center">
@@ -26,10 +27,6 @@ if (isset($login_email)) {
             </div>
          </div>
      '; 
-
-    }else{
-
-        //nulla
 
     }
  

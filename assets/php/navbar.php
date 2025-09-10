@@ -1,9 +1,13 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
   <div class="container px-4 px-lg-5">
-    <button class="back-btn" onclick="goBack()">
-      <i class="bi bi-arrow-left fs-4 me-2 arrow-icon"></i>
-    </button>
+    <?php 
+    if($nomepagina != "Home"){
+      echo "<button class='back-btn' onclick='goBack()'>";
+      echo "<i class='bi bi-arrow-left fs-4 me-2 arrow-icon'></i>";
+      echo "</button>";
+    }
+    ?>
 
     <a class="navbar-brand" href="#page-top">PNL STUDIO</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,7 +18,7 @@
       <ul class="navbar-nav ms-auto my-2 my-lg-0">
         <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="sale.php">Sale</a></li>
-        <li class="nav-item"><a class="nav-link" href="corsi_e_m.php">Corsi e Masterclass</a></li>
+        <li class="nav-item"><a class="nav-link" href="corsi_e_m.php">Workshop</a></li>
         <li class="nav-item"><a class="nav-link" href="prenota.php">Prenota</a></li>
 
         <?php 
@@ -62,12 +66,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="carrelloModalLabel">Il tuo carrello</h5>
+        <p class="card-subtitle text-muted ps-2"><strong id="tot_carrello"></strong></p>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
       </div>
       <div class="modal-body" id="contenuto-carrello">
         <p>Caricamento...</p>
       </div>
       <div class="modal-footer">
+        <button class="btn btn-error" onclick="svuotaCarrello()"><i class="bi bi-trash"></i></button> 
         <button class="btn btn-success" onclick="acquistaCarrello()">Ordina (Pagamento in sede)</button>
       </div>
     </div>
@@ -84,22 +90,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
       </div>
 
-      <!-- ====== BODY: SOLO calendario + slots ====== -->
+
       <div class="modal-body text-center">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <div class="picker-wrap">
           <!-- Calendario -->
           <input id="cal" type="text" hidden>
 
-          <!-- Colonna slot -->
+          <!-- ore -->
           <div class="slots">
-            <div class="slots-header" id="slotsHeader">—</div>
+            <div class="slots-header" id="slotsHeader">Ora d'inizio</div>
             <div id="slotsBody" role="listbox" aria-label="Fasce orarie disponibili"></div>
           </div>
         </div>
-      </div><!-- /modal-body -->
+      </div>
 
-      <!-- ====== FOOTER: picker + bottone inline ====== -->
       <div class="modal-footer justify-content-center mt-3">
         <div class="booking-actions">
           <label for="dataPrenotazione" class="form-label fw-bold mb-0">Quando:</label>
@@ -120,21 +125,21 @@
             style="width:80px;"
           >
 
-          <button class="btn btn-success px-4" onclick="confermaPrenotazione()">
+          <button type="button" class="btn btn-success px-4" onclick="confermaPrenotazione()">
             Conferma prenotazione
           </button>
         </div>
-      </div><!-- /modal-footer -->
+      </div>
 
     </div>
   </div>
 </div>
-
 
 <!-- Scripts -->
  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/it.js"></script>
 <script src="assets/js/goback.js"></script>
 <script src="assets/js/button_func.js"></script>
+<script src="assets/js/calendar.js"></script>
 <script src="assets/js/carrello_modal.js"></script>
 <script src="assets/js/gestisci_carrello.js"></script>

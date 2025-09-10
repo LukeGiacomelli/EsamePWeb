@@ -12,7 +12,7 @@ if ($azione === 'incrementa') {
   $sql = "UPDATE carrello SET C_quantità = C_quantità + 1 WHERE Prodotto_id = ? AND U_cf = ?";
 } elseif ($azione === 'decrementa') {
   $sql = "UPDATE carrello SET C_quantità = C_quantità - 1 WHERE Prodotto_id = ? AND U_cf = ? AND C_quantità > 1";
-}
+} 
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ss", $prodotto_id, $utente);
@@ -26,4 +26,6 @@ $stmt2->execute();
 $res = $stmt2->get_result()->fetch_assoc();
 
 echo $res['C_quantità'] ?? 0;
+
+
 ?>

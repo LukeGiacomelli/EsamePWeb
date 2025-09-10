@@ -7,7 +7,7 @@ $data = $_POST['data_prenotazione'];
 $durata = $_POST['durata_prenotazione'];
 $cf = $_SESSION['cf'];
 
-// Trova l'ordine attivo del cliente
+//ordine
 $sql = "SELECT Ordine_id FROM ordine WHERE cf_cliente = ? AND stato = 'in elaborazione' ORDER BY Data_ordine DESC LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $cf);
@@ -21,7 +21,6 @@ if (!$ordine) {
   exit;
 }
 
-// Aggiorna la riga specifica
 $ordine_id = $ordine['Ordine_id'];
 $sql = "UPDATE ordine_prodotto SET data_prenotazione = ?, durata_prenotazione = ? WHERE ordine_id = ? AND prodotto_id = ?";
 $stmt = $conn->prepare($sql);

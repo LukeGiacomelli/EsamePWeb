@@ -1,5 +1,4 @@
 <?php
-   // Start the session
    session_start();
 
 
@@ -18,12 +17,10 @@
 
    
    function logout() {
-
       // Distruggi i dati della sessione
       session_unset();
       session_destroy();
   
-      // Reindirizza alla homepage
       header("Location: index.php");
       exit();
   }

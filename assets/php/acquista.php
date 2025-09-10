@@ -9,6 +9,26 @@ if (!$utente_cf) {
   exit;
 }
 
+// Check se le date sono selezionate
+$sql = "SELECT 
+          c.data_prenotazione, 
+          c.Prodotto_id
+        FROM carrello c
+        JOIN prodotto p ON p.Prodotto_id = c.Prodotto_id
+        JOIN sala s ON p.Prodotto_id = s.Prodotto_id
+        WHERE c.U_cf = ? 
+        AND c.Prodotto_id LIKE 'S%'
+        AND c.data_prenotazione IS NULL";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $utente_cf);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+  echo "Selezionare la data per tutte le sale...";
+  exit;
+}
+
 // Recupera prodotti dal carrello
 $sql = "SELECT 
           c.data_prenotazione, 
@@ -40,7 +60,7 @@ $insertOrdine = $conn->prepare("
 $insertOrdine->bind_param("ss", $ordine_id, $utente_cf);
 $insertOrdine->execute();
 
-// Inserisce ogni prodotto con data e durata
+// Inserisce ogni prodotto
 $insertProd = $conn->prepare("
   INSERT INTO ordine_prodotto 
     (ordine_id, prodotto_id, prezzo_unitario, quantita, data_prenotazione, durata_prenotazione) 
@@ -48,19 +68,23 @@ $insertProd = $conn->prepare("
 ");
 
 while ($row = $result->fetch_assoc()) {
-  $data = $row['data_prenotazione'] ?? null;
-  $durata = $row['durata_prenotazione'] ?? null;
+    $data = $row['data_prenotazione']  ?? null;
+    $durata  = $row['durata_prenotazione']  ?? null;
 
-  $insertProd->bind_param(
-    "ssdisi",
-    $ordine_id,
-    $row['Prodotto_id'],
-    $row['Prodotto_prezzo'],
-    $row['C_quantità'],
-    $row['data_prenotazione'],
-    $row['durata_prenotazione']
-  );
-  $insertProd->execute();
+    $molt_durata = ($durata !== null && $durata !== '') ? (int)$durata : 1;
+    $prezzo = $molt_durata * (float)$row['Prodotto_prezzo'] * (int)$row['C_quantità'];
+
+    $insertProd->bind_param(
+        "ssdisi",
+        $ordine_id,              
+        $row['Prodotto_id'],        
+        $prezzo,                    
+        $row['C_quantità'],         
+        $data,                       
+        $durata                      
+    );
+
+    $insertProd->execute();
 }
 
 // Svuota il carrello

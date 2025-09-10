@@ -2,7 +2,7 @@
     include("config.php");
     $data = json_decode(file_get_contents('php://input'), true);
 
-    //Se ricevo la variabile da js (con ajax)
+    //Se ricevo la variabile da js (ajax)
     if (isset($data['id_caller'])) {
         $id_prod = $data['id_caller'];
         $db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);

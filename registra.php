@@ -110,13 +110,11 @@
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                         </div>
                     </div>    
-                    <!-- Submit button and link -->
+
                     <div class="row justify-content-center align-items-center mb-1">
-                        <!-- Center the "Invia" button -->
                         <div class="d-flex justify-content-center col-auto">
                             <input class="btn btn-primary btn-xl fs-2m py-3" type="submit" value="Invia" />
                         </div>
-                        <!-- Center the "Hai già un account? Accedi" link -->
                         <div class="d-flex justify-content-center col-auto mt-0">
                             <p class="text-light mb-0">
                                 Hai già un account? <a href="login.php">Accedi</a>

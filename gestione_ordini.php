@@ -1,7 +1,14 @@
 <?php 
 
-    $nomepagina = "I MIEI ORDINI";
+    $nomepagina = "GESTIONE ORDINI";
     include('assets/php/session.php');
+    if(!isset($login_type)) {
+        header("location: login.php");
+        exit;
+    }else if(isset($login_type) && $login_type != "Proprietario"){
+        header("location: index.php");
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>

@@ -1,12 +1,4 @@
-/*!
-* Start Bootstrap - Creative v7.0.7 (https://startbootstrap.com/theme/creative)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
-*/
-//
-// Scripts
-// 
-
+//Bootstrap
 window.addEventListener('DOMContentLoaded', event => {
 
     // Navbar shrink function
@@ -22,11 +14,7 @@ window.addEventListener('DOMContentLoaded', event => {
         }
 
     };
-
-    // Shrink the navbar 
     navbarShrink();
-
-    // Shrink the navbar when page is scrolled
     document.addEventListener('scroll', navbarShrink);
 
     // Activate Bootstrap scrollspy on the main nav element

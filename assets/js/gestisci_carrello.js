@@ -12,14 +12,18 @@ function modificaQuantita(azione, prodotto_id) {
     .then(nuovaQuantita => {
       if (parseInt(nuovaQuantita) > 0) {
         document.getElementById(`quantita-${prodotto_id}`).textContent = nuovaQuantita;
+        document.getElementById('carrelloModal').dispatchEvent(new Event('show.bs.modal'));
       } else {
-        // ricarica il modal (o rimuovi l'elemento)
+        // ricarica il modal
         document.getElementById('carrelloModal').dispatchEvent(new Event('show.bs.modal'));
       }
       aggiornaBadgeCarrello(document.querySelector('.cart-badge')?.dataset.utente);
     });
   }
-  
+
+
+
+
   function rimuoviDalCarrello(prodotto_id) {
     fetch('assets/php/rimuovi_dal_carrello.php', {
       method: 'POST',
@@ -30,7 +34,7 @@ function modificaQuantita(azione, prodotto_id) {
       })
     })
     .then(() => {
-      // Ricarica il modal per aggiornare la lista
+      // Ricarica il modal
       document.getElementById('carrelloModal').dispatchEvent(new Event('show.bs.modal'));
       aggiornaBadgeCarrello(document.querySelector('.cart-badge')?.dataset.utente);
     });
