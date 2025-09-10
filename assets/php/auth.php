@@ -3,15 +3,14 @@ session_start();
 
 
 function auth_log($db, $post_email, $post_pw){
-    // Dal form...
     $email = mysqli_real_escape_string($db, $post_email);
-    $pw = mysqli_real_escape_string($db, $post_pw); // Sanifica i dati prima di inserirli in una query SQL (prevenire attacchi come SQL injection)
+    $pw = mysqli_real_escape_string($db, $post_pw);
 
     // Query di check
     $sql = "SELECT * FROM utente WHERE U_mail = '$email' and U_password = '$pw'";
-    $result = mysqli_query($db, $sql); // Controlla se la query è valida, se lo è contiene il risultato
-    $row = mysqli_fetch_assoc($result); // Se result è falso non fa niente, altrimenti row trasforma il risultato in un array di variabili
-    $count = mysqli_num_rows($result); // Conta quanti risultati sono stati ottenuti (0 se no risultato)
+    $result = mysqli_query($db, $sql); 
+    $row = mysqli_fetch_assoc($result); 
+    $count = mysqli_num_rows($result);
 
     if($count == 1 && ($row['U_stato'] == 'attivo')) { // Fa il login solo se l'utente è approvato e non bloccato
         // Logg
@@ -24,7 +23,7 @@ function auth_log($db, $post_email, $post_pw){
         $_SESSION['birth'] = $row['U_data_di_nascita'];
         $_SESSION['type'] = $row['U_tipo'];
         
-        header("location: index.php"); // Ti reindirizza a index.php
+        header("location: index.php");
 
     } else if ($count == 1 && $row['U_stato'] == 'attesa') {
 
@@ -45,21 +44,21 @@ function auth_log($db, $post_email, $post_pw){
 function check_existing_credentials($db, $cf, $email, $tel) {
     $messages = [];
 
-    // Controllo codice fiscale
+    // cf
     $sql = "SELECT * FROM utente WHERE U_cf = '$cf'";
     $result = mysqli_query($db, $sql);
     if (mysqli_num_rows($result) > 0) {
         $messages[] = 'il codice fiscale';
     }
 
-    // Controllo email
+    // mail
     $sql = "SELECT * FROM utente WHERE U_mail = '$email'";
     $result = mysqli_query($db, $sql);
     if (mysqli_num_rows($result) > 0) {
         $messages[] = 'l\'email';
     }
 
-    // Controllo telefono
+    //tel
     $sql = "SELECT * FROM utente WHERE U_telefono = '$tel'";
     $result = mysqli_query($db, $sql);
     if (mysqli_num_rows($result) > 0) {
@@ -99,7 +98,6 @@ function auth_reg($db, $post_array){
     }
 
     if ($result) {
-        // Controllo per verificare l'inserimento
         $sql_check = "SELECT * FROM utente WHERE U_mail = '$email' AND U_password = '$pw'";
         $result_check = mysqli_query($db, $sql_check);   
         $count_check = mysqli_num_rows($result_check);

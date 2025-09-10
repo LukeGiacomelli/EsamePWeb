@@ -33,19 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'nome_operatore' => $_POST['nome_operatore'],
                     'cognome_operatore' => $_POST['cognome_operatore'],
                 ];
-            } elseif ($tipo === "corsi") {
+            }elseif ($tipo === "corsi") {
                 $post_specific_data = [
                     'nome_corso' => $_POST['nome_corso'],
-                    'lezioni' => $_POST['lezioni'],
+                    'lezioni' => 1,
                     'nome_insegnante_corso' => $_POST['nome_insegnante_corso'],
                     'cognome_insegnante_corso' => $_POST['cognome_insegnante_corso'],
-                ];
-            } elseif ($tipo === "masterclass") {
-                $post_specific_data = [
-                    'nome_corso' => $_POST['nome_masterclass'],
-                    'lezioni' => 1,
-                    'nome_insegnante_corso' => $_POST['nome_insegnante_masterclass'],
-                    'cognome_insegnante_corso' => $_POST['cognome_insegnante_masterclass'],
                     'data_corso' => $_POST['data'],
                 ];
             }
@@ -65,38 +58,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'tipo' => $_POST['tipo_md'],
             ];
 
+            $error = true;
             $tipo = $_POST['tipo_md'];
-
-            if ($tipo === "Sala") {
+            
+            if ($tipo === "Sala" && isset($_POST['tipo_sala_md'])) {
                 $post_specific_data = [
                     'tipo_sala' => $_POST['tipo_sala_md'],
                     'nome_sala' => $_POST['nome_sala_md'],
                     'capienza' => $_POST['capienza_md'],
                 ];
-            } elseif ($tipo === "Servizio") {
+                $error = false;
+            } elseif ($tipo === "Servizio" && isset($_POST['tipo_servizio_md'])) {
                 $post_specific_data = [
                     'tipo_servizio' => $_POST['tipo_servizio_md'],
                     'nome_operatore' => $_POST['nome_operatore_md'],
                     'cognome_operatore' => $_POST['cognome_operatore_md'],
                 ];
-            } elseif ($tipo === "Corso") {
+                $error = false;
+            } elseif ($tipo === "corso") {
                 $post_specific_data = [
                     'nome_corso' => $_POST['nome_corso_md'],
-                    'lezioni' => $_POST['lezioni_md'],
+                    'lezioni' => 1,
                     'nome_insegnante_corso' => $_POST['nome_insegnante_corso_md'],
                     'cognome_insegnante_corso' => $_POST['cognome_insegnante_corso_md'],
-                ];
-            } elseif ($tipo === "Masterclass") {
-                $post_specific_data = [
-                    'nome_corso' => $_POST['nome_masterclass_md'],
-                    'lezioni' => 1,
-                    'nome_insegnante_corso' => $_POST['nome_insegnante_masterclass_md'],
-                    'cognome_insegnante_corso' => $_POST['cognome_insegnante_masterclass_md'],
                     'data_corso' => $_POST['data_md'],
                 ];
+                $error = false;
             }
 
-            aggiornaProdotto($db, $post_general_data, $post_specific_data);
+            if(!$error){
+                aggiornaProdotto($db, $post_general_data, $post_specific_data);
+            }
         }
     }
 }
@@ -132,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <?php include("assets/php/stampa_prodotti.php"); ?>
 
-                <!-- Bottone per aggiungere nuovi prodotti -->
+                <!-- nuovi prodotti -->
                 <?php
                 if (isset($login_type) && ($login_type == 'proprietario')) {
                     echo '  <div class="text-center mt-5">
@@ -172,19 +164,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <label for="tipo">Tipo di prodotto:</label>
                         <select id="tipo" name="tipo" class="form-select" onchange="showFields()" required>
-                            <option value="">-- Seleziona --</option>
+                            <option value="" >-- Seleziona --</option>
                             <option value="sale">Sala</option>
                             <option value="servizi">Servizio</option>
                             <option value="corsi">Corso</option>
-                            <option value="masterclass">Masterclass</option>
                         </select><br><br>
 
                         <!-- Campi dinamici per Sale -->
                         <div id="sale-fields" class="dynamic-field" style="display: none;">
                             <label for="tipo_sala">Tipo di sala:</label>
                             <select id="tipo_sala" name="tipo_sala" class="form-select">
-                                <option value="sala prove">Sala Prove</option>
-                                <option value="sala registrazione">Sala di Registrazione</option>
+                                <option value="Sala prove" >Sala Prove</option>
+                                <option value="Sala registrazione">Sala di Registrazione</option>
                             </select><br>
 
                             <label for="nome_sala">Nome:</label>
@@ -215,45 +206,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </div><br>
                         </div>
-
-                        <!-- Campi dinamici per Corsi -->
+                        <!-- Campi dinamici per corso -->
                         <div id="corsi-fields" class="dynamic-field" style="display: none;">
                             <label for="nome_corso">Nome:</label>
                             <input type="text" id="nome_corso" name="nome_corso" class="form-control"><br>
 
-                            <label for="lezioni">Numero di lezioni:</label>
-                            <select id="lezioni" name="lezioni" class="form-select">
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                            </select><br>
-
                             <label for="insegnante_corso">Insegnante:</label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" id="nome_insegnante_corso" name="nome_insegnante_corso"
-                                        class="form-control" placeholder="Nome">
+                                    <input type="text" id="nome_insegnante_corso"
+                                        name="nome_insegnante_corso" class="form-control" placeholder="Nome">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" id="cognome_insegnante_corso" name="cognome_insegnante_corso"
-                                        class="form-control" placeholder="Cognome">
-                                </div>
-                            </div><br>
-                        </div>
-
-                        <!-- Campi dinamici per Masterclass -->
-                        <div id="masterclass-fields" class="dynamic-field" style="display: none;">
-                            <label for="nome_masterclass">Nome:</label>
-                            <input type="text" id="nome_masterclass" name="nome_masterclass" class="form-control"><br>
-
-                            <label for="insegnante_masterclass">Insegnante:</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" id="nome_insegnante_masterclass"
-                                        name="nome_insegnante_masterclass" class="form-control" placeholder="Nome">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" id="cognome_insegnante_masterclass"
-                                        name="cognome_insegnante_masterclass" class="form-control"
+                                    <input type="text" id="cognome_insegnante_corso"
+                                        name="cognome_insegnante_corso" class="form-control"
                                         placeholder="Cognome">
                                 </div>
                             </div><br>
@@ -335,45 +301,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div><br>
                         </div>
 
-                        <!-- Campi dinamici per Corsi -->
+                        <!-- Campi dinamici per corso -->
                         <div id="corsi-fieldsm" class="dynamic-fieldm" style="display: none;">
                             <label for="nome_corso">Nome:</label>
-                            <input type="text" id="nome_corso_md" name="nome_corso_md" class="form-control"><br>
-
-                            <label for="lezioni">Numero di lezioni:</label>
-                            <select id="lezioni_md" name="lezioni_md" class="form-select">
-                                <option value="15">15</option>
-                                <option value="30">30</option>
-                            </select><br>
+                            <input type="text" id="nome_corso_md" name="nome_corso_md"
+                                class="form-control"><br>
 
                             <label for="insegnante_corso">Insegnante:</label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="text" id="nome_insegnante_corso_md" name="nome_insegnante_corso_md"
-                                        class="form-control" placeholder="Nome">
+                                    <input type="text" id="nome_insegnante_corso_md"
+                                        name="nome_insegnante_corso_md" class="form-control" placeholder="Nome">
                                 </div>
                                 <div class="col-md-6">
                                     <input type="text" id="cognome_insegnante_corso_md"
-                                        name="cognome_insegnante_corso_md" class="form-control" placeholder="Cognome">
-                                </div>
-                            </div><br>
-                        </div>
-
-                        <!-- Campi dinamici per Masterclass -->
-                        <div id="masterclass-fieldsm" class="dynamic-fieldm" style="display: none;">
-                            <label for="nome_masterclass">Nome:</label>
-                            <input type="text" id="nome_masterclass_md" name="nome_masterclass_md"
-                                class="form-control"><br>
-
-                            <label for="insegnante_masterclass">Insegnante:</label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="text" id="nome_insegnante_masterclass_md"
-                                        name="nome_insegnante_masterclass_md" class="form-control" placeholder="Nome">
-                                </div>
-                                <div class="col-md-6">
-                                    <input type="text" id="cognome_insegnante_masterclass_md"
-                                        name="cognome_insegnante_masterclass_md" class="form-control"
+                                        name="cognome_insegnante_corso_md" class="form-control"
                                         placeholder="Cognome">
                                 </div>
                             </div><br>

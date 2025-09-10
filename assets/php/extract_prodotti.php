@@ -6,7 +6,8 @@
                     LEFT JOIN SALA s ON p.Prodotto_id = s.Prodotto_id
                     LEFT JOIN SERVIZIO servizio ON p.Prodotto_id = servizio.Prodotto_id";
     $dinamic_columns = "c.Corso_Nome, 
-                        c.N_iscritti,  
+                        c.N_iscritti,
+                        c.Max_Iscritti,  
                         c.Corso_Data,
                         s.Sala_Nome,
                         s.Sala_Tipo,
@@ -20,19 +21,16 @@
                     $where_field = $where_field . "p.Prodotto_prezzo <= " . $_POST["priceRange"] . " AND ";
                 }
                 if (isset($_POST["desc_tb"]) && $_POST["desc_tb"] != ""){
-                    //Se è stato toccato lo slider
                     $where_field = $where_field . "p.Prodotto_descrizione LIKE '%" . $_POST["desc_tb"] . "%' AND ";
                 }
                 if (isset($_POST["hot_box"])){
-                    //Se è stato toccato lo slider
                     $where_field = $where_field . "p.hot = 1 AND ";
-                }else{
-                    $where_field = $where_field . "p.hot = 0 AND ";
                 }
                 if (isset($_POST["tipo_prod"]) && $_POST["tipo_prod"] != "op"){
                     if ($_POST["tipo_prod"] === "Corso"){
                         $dinamic_columns = "c.Corso_Nome, 
-                                            c.N_iscritti,  
+                                            c.N_iscritti,
+                                            c.Max_Iscritti,  
                                             c.Corso_Data";
                         $join_field = "INNER JOIN CORSO c ON p.Prodotto_id = c.Prodotto_id";
                     }else if ($_POST["tipo_prod"] === "Sala"){
@@ -67,12 +65,16 @@
     </script>
     
     <?php
-    $where_field = ($where_field != "" ? "WHERE " . substr($where_field, 0, -4) : "");
+    $where_field = rtrim($where_field); // togli spazi finali
+    $where_field = preg_replace('/\s*(AND|,)\s*$/i', '', $where_field); // rimuovi AND o virgola finale
+    $where_field = $where_field !== '' ? 'WHERE '.$where_field : '';
+
     $sql = "SELECT 
     p.Prodotto_id, 
     p.Prodotto_prezzo, 
     p.Prodotto_immagine, 
     p.Prodotto_descrizione,
+    p.hot,
     " . $dinamic_columns . "     
     FROM 
     PRODOTTO p

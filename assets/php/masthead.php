@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-lg-8 align-self-baseline">
                         <!--<p class="text-white-75 mb-5">Scopri chi siamo</p>-->
-                        <a class="btn btn-primary btn-xl" href="login.php#login_section"><?php echo(isset($login_email) ? "Welcome " . $login_username : "Sign in/Sign up")  ?></a>
+                        <a class="btn btn-primary btn-xl" href="<?php echo isset($login_email) ? 'pg_personale_ut.php' : 'login.php#login_section'; ?>"><?php echo(isset($login_email) ? "Welcome " . $login_username : "Sign in/Sign up")  ?></a>
                     </div>
                 </div>
             </div>

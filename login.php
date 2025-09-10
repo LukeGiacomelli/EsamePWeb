@@ -54,11 +54,9 @@
                                 </div>
                             </div>
                             <div class="row justify-content-center align-items-center mb-1">
-                                <!-- Center the "Invia" button -->
                                 <div class="d-flex justify-content-center col-auto">
                                     <input class="btn btn-primary btn-xl fs-2m py-3" type="Submit" value="Invia" />
                                 </div>
-                                <!-- Center the "Hai già un account? Accedi" link -->
                                 <div class="d-flex justify-content-center col-auto mt-0">
                                     <p class="text-light mb-0">
                                         Non hai un account? <a href="registra.php">Registrati</a>

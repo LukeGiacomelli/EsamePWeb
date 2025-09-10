@@ -1,11 +1,19 @@
 <?php 
-    //include('assets/php/session.php');
+    include('assets/php/session.php');
+    if(!isset($login_type)) {
+        header("location: login.php");
+        exit;
+    }else if(isset($login_type) && $login_type != "Proprietario"){
+        header("location: index.php");
+        exit;
+    }
+
     include('assets/php/admintools.php');
   
     if($_SERVER["REQUEST_METHOD"] == "POST"){
   
       if(isset($_POST['bottone_approva'])){
-          approvautenti($db, $_POST['bottone_approva']);
+        approvautenti($db, $_POST['bottone_approva']);
       }
       if(isset($_POST['bottone_blocca'])){
         bloccautenti($db,$_POST['bottone_blocca']);

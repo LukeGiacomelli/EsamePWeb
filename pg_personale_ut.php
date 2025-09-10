@@ -9,9 +9,8 @@ $db = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
 // Non permette di arrivare a questa pagina se non passando da dentro il sito (da loggati)
 if (!isset($login_email)) {
-  // If not logged in, redirect to the index page
   header('Location: index.php');
-  exit(); // Make sure to stop the script after redirection
+  exit(); 
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -68,7 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <hr class="mt-0 mb-4">
 
               <div class="row">
-                <!-- Name, Surname, and Codice Fiscale (non-editable) -->
                 <div class="d-flex justify-content-between mb-3">
                   <div class="col-4 text-start">
                     <h6>Nome</h6>
@@ -84,7 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   </div>
                 </div>
 
-                <!-- Phone and Email with Edit Buttons -->
                 <div class="d-flex justify-content-between mb-3">
                   <div class="col-4 text-start">
                     <h6>Telefono
@@ -127,7 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </section>
 
-  <!-- Modal for Editing Phone -->
   <div class="modal fade" id="editPhoneModal" tabindex="-1" aria-labelledby="editPhoneModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -149,7 +145,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <!-- Modal for Editing Email -->
   <div class="modal fade" id="editEmailModal" tabindex="-1" aria-labelledby="editEmailModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -170,7 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
 
-  <!-- Modal for Editing Password -->
   <div class="modal fade" id="editPasswModal" tabindex="-1" aria-labelledby="editPasswModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -180,7 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="modal-body">
           <form method="POST">
-            <!-- Old Password Field -->
+            <!-- Vecchia pwd -->
             <div class="mb-3 position-relative">
               <input type="password" class="form-control" id="oldPassw" name="oldPassw" placeholder="Vecchia password"
                 required>
@@ -190,7 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <i class="bi bi-eye-slash" id="toggleIcon-oldPassw"></i>
               </button>
             </div>
-            <!-- New Password Field -->
+            <!-- Nuova pwd-->
             <div class="mb-3 position-relative">
               <input type="password" class="form-control" id="newPassw" name="newPassw" placeholder="Nuova password"
                 required>
@@ -200,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <i class="bi bi-eye-slash" id="toggleIcon-newPassw"></i>
               </button>
             </div>
-            <!-- Submit Button -->
+
             <button type="submit" class="btn btn-primary" name="modPasswButton">Salva</button>
           </form>
         </div>

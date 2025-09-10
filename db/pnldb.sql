@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Ago 13, 2025 alle 20:10
+-- Creato il: Set 10, 2025 alle 19:04
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -31,7 +31,7 @@ CREATE TABLE `carrello` (
   `data_prenotazione` datetime DEFAULT NULL,
   `durata_prenotazione` int(11) DEFAULT NULL,
   `C_quantità` int(11) DEFAULT NULL,
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `U_cf` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -40,7 +40,7 @@ CREATE TABLE `carrello` (
 --
 
 INSERT INTO `carrello` (`data_prenotazione`, `durata_prenotazione`, `C_quantità`, `Prodotto_id`, `U_cf`) VALUES
-(NULL, NULL, 2, 'Cm3', 'MRMAE23491');
+(NULL, NULL, 1, 'S1', 'MRMAE23491');
 
 -- --------------------------------------------------------
 
@@ -51,7 +51,7 @@ INSERT INTO `carrello` (`data_prenotazione`, `durata_prenotazione`, `C_quantità
 CREATE TABLE `commenti` (
   `id` int(11) NOT NULL,
   `utente_id` varchar(16) NOT NULL,
-  `prodotto_id` varchar(255) NOT NULL,
+  `prodotto_id` varchar(20) NOT NULL,
   `messaggio` text NOT NULL,
   `punteggio` tinyint(3) UNSIGNED NOT NULL CHECK (`punteggio` between 0 and 5),
   `data_commento` timestamp NOT NULL DEFAULT current_timestamp()
@@ -62,11 +62,8 @@ CREATE TABLE `commenti` (
 --
 
 INSERT INTO `commenti` (`id`, `utente_id`, `prodotto_id`, `messaggio`, `punteggio`, `data_commento`) VALUES
-(4, 'MRMAE23491', 'Cm3', 'cazzooo', 2, '2025-04-23 20:51:19'),
-(13, 'MRMAE23491', 'Cm3', 'lo vedii!?', 1, '2025-04-23 21:08:32'),
-(22, 'MRMAE23491', 'C3', 'awdawdwd', 3, '2025-04-23 21:38:43'),
-(23, 'MRMAE23491', 'C3', 'cazzzo che hit', 5, '2025-04-23 21:38:56'),
-(24, 'MRMAE23491', 'C3', 'AAAAAAAAAAA', 5, '2025-08-13 18:09:59');
+(4, 'MRMAE23491', 'Cm3', 'Yeeee', 2, '2025-04-23 20:51:19'),
+(13, 'MRMAE23491', 'Cm3', 'Bella sala', 1, '2025-04-23 21:08:32');
 
 -- --------------------------------------------------------
 
@@ -75,8 +72,8 @@ INSERT INTO `commenti` (`id`, `utente_id`, `prodotto_id`, `messaggio`, `punteggi
 --
 
 CREATE TABLE `contiene` (
-  `Ordine_id` varchar(255) NOT NULL,
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Ordine_id` varchar(16) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `Quantità_di_prodotto` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -87,21 +84,22 @@ CREATE TABLE `contiene` (
 --
 
 CREATE TABLE `corso` (
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `Corso_Nome` varchar(32) DEFAULT NULL,
   `Corso_Operatore_Nome` varchar(32) DEFAULT NULL,
   `Corso_Operatore_Cognome` varchar(32) DEFAULT NULL,
   `Corso_Data` varchar(32) DEFAULT NULL,
-  `N_Iscritti` int(11) NOT NULL
+  `N_Iscritti` int(11) NOT NULL,
+  `Max_Iscritti` int(4) NOT NULL DEFAULT 5
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `corso`
 --
 
-INSERT INTO `corso` (`Prodotto_id`, `Corso_Nome`, `Corso_Operatore_Nome`, `Corso_Operatore_Cognome`, `Corso_Data`, `N_Iscritti`) VALUES
-('C3', 'Corso di Mix&Master', 'Giancarlo', 'Piro', '21/09/2025', 1),
-('Cm3', 'Soundtrack Crafting', 'Ginevra', 'Morselli', '2025-02-14', 1);
+INSERT INTO `corso` (`Prodotto_id`, `Corso_Nome`, `Corso_Operatore_Nome`, `Corso_Operatore_Cognome`, `Corso_Data`, `N_Iscritti`, `Max_Iscritti`) VALUES
+('C3', 'Corso di Mix&Master', 'Giancarlo', 'Piro', '2025-09-21', 2, 5),
+('Cm3', 'Soundtrack Crafting', 'Ginevra', 'Morselli', '2025-02-14', 3, 3);
 
 -- --------------------------------------------------------
 
@@ -110,7 +108,7 @@ INSERT INTO `corso` (`Prodotto_id`, `Corso_Nome`, `Corso_Operatore_Nome`, `Corso
 --
 
 CREATE TABLE `modifica` (
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `U_cf` varchar(16) NOT NULL,
   `Tipo_modifica` varchar(128) DEFAULT NULL,
   `Data_di_modifica` date NOT NULL
@@ -123,8 +121,8 @@ CREATE TABLE `modifica` (
 --
 
 CREATE TABLE `ordine` (
-  `Ordine_id` varchar(255) NOT NULL,
-  `cf_cliente` varchar(255) DEFAULT NULL,
+  `Ordine_id` varchar(16) NOT NULL,
+  `cf_cliente` varchar(16) DEFAULT NULL,
   `Data_ordine` datetime DEFAULT NULL,
   `stato` varchar(50) DEFAULT 'in elaborazione'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -136,13 +134,7 @@ CREATE TABLE `ordine` (
 INSERT INTO `ordine` (`Ordine_id`, `cf_cliente`, `Data_ordine`, `stato`) VALUES
 ('ORD6819daba85829', 'MRMAE23491', '2025-05-06 00:00:00', 'Annullato'),
 ('ORD6819dce3e496d', 'MRMAE23491', '2025-05-06 00:00:00', 'Annullato'),
-('ORD6819e36880689', 'MRMAE23491', '2025-05-06 00:00:00', 'In elaborazione'),
-('ORD6819e44472e03', 'MRMAE23491', '2025-05-06 12:28:20', 'Annullato'),
-('ORD681a2e29c1fe6', 'MRMAE23491', '2025-05-06 17:43:37', 'Annullato'),
-('ORD681a2e8b81394', 'MRMAE23491', '2025-05-06 17:45:15', 'In elaborazione'),
-('ORD681a3121a29bf', 'MRMAE23491', '2025-05-06 17:56:17', 'In elaborazione'),
-('ORD681a315269bc6', 'MRMAE23491', '2025-05-06 17:57:06', 'In elaborazione'),
-('ORD681a31758f749', 'MRMAE23491', '2025-05-06 17:57:41', 'In elaborazione');
+('ORD6819e36880689', 'MRMAE23491', '2025-05-06 00:00:00', 'Confermato');
 
 -- --------------------------------------------------------
 
@@ -152,8 +144,8 @@ INSERT INTO `ordine` (`Ordine_id`, `cf_cliente`, `Data_ordine`, `stato`) VALUES
 
 CREATE TABLE `ordine_prodotto` (
   `id` int(11) NOT NULL,
-  `ordine_id` varchar(255) DEFAULT NULL,
-  `prodotto_id` varchar(255) DEFAULT NULL,
+  `ordine_id` varchar(16) DEFAULT NULL,
+  `prodotto_id` varchar(20) DEFAULT NULL,
   `quantita` int(11) DEFAULT NULL,
   `prezzo_unitario` decimal(10,2) DEFAULT NULL,
   `data_prenotazione` datetime DEFAULT NULL,
@@ -170,14 +162,29 @@ INSERT INTO `ordine_prodotto` (`id`, `ordine_id`, `prodotto_id`, `quantita`, `pr
 (3, 'ORD6819daba85829', 'S1', 1, 65.00, NULL, NULL),
 (4, 'ORD6819daba85829', 'S2', 1, 56.00, NULL, NULL),
 (5, 'ORD6819dce3e496d', 'SV1', 9, 22.00, NULL, NULL),
-(6, 'ORD6819e36880689', 'C3', 3, 850.00, NULL, NULL),
-(7, 'ORD6819e44472e03', 'Cm3', 2, 150.00, NULL, NULL),
-(8, 'ORD6819e44472e03', 'S1', 1, 65.00, NULL, NULL),
-(9, 'ORD6819e44472e03', 'S2', 2, 56.00, NULL, NULL),
-(10, 'ORD681a2e8b81394', 'S2', 2, 56.00, '2025-05-07 22:02:00', 2),
-(11, 'ORD681a3121a29bf', 'S2', 1, 56.00, NULL, NULL),
-(12, 'ORD681a315269bc6', 'S1', 1, 65.00, NULL, NULL),
-(13, 'ORD681a31758f749', 'S2', 1, 56.00, NULL, NULL);
+(6, 'ORD6819e36880689', 'C3', 3, 850.00, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `prenotazioni`
+--
+
+CREATE TABLE `prenotazioni` (
+  `id_prenotazioni` int(10) UNSIGNED NOT NULL,
+  `prodotto_id` varchar(20) NOT NULL,
+  `utente_cf` varchar(16) NOT NULL,
+  `start_date` datetime NOT NULL,
+  `durata` int(4) NOT NULL DEFAULT 0,
+  `note` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `prenotazioni`
+--
+
+INSERT INTO `prenotazioni` (`id_prenotazioni`, `prodotto_id`, `utente_cf`, `start_date`, `durata`, `note`) VALUES
+(1, 'S1', 'MRMAE23491', '2025-09-10 10:00:00', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -186,7 +193,7 @@ INSERT INTO `ordine_prodotto` (`id`, `ordine_id`, `prodotto_id`, `quantita`, `pr
 --
 
 CREATE TABLE `prodotto` (
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `hot` tinyint(1) NOT NULL DEFAULT 0,
   `Prodotto_prezzo` decimal(7,2) NOT NULL,
   `Prodotto_immagine` varchar(255) DEFAULT NULL,
@@ -198,11 +205,12 @@ CREATE TABLE `prodotto` (
 --
 
 INSERT INTO `prodotto` (`Prodotto_id`, `hot`, `Prodotto_prezzo`, `Prodotto_immagine`, `Prodotto_descrizione`) VALUES
-('C3', 0, 850.00, 'https://www.artandmusicstudios.com/wp-content/uploads/2019/12/Mix-Master.png', 'Lezione collettiva da 3 ore sull\'arte del Mix&master'),
+('C3', 1, 850.00, 'https://www.artandmusicstudios.com/wp-content/uploads/2019/12/Mix-Master.png', 'Lezione collettiva da 3 ore sull\'arte del Mix&master'),
 ('Cm3', 0, 150.00, 'https://www.cinematographe.it/wp-content/uploads/2015/01/Film-Music.jpg', 'Come comporre colonne sonore per il cinema. Rapporto tra emozione, immagine e suono.'),
 ('S1', 0, 65.00, 'https://www.musiclabstudio.com/wp-content/uploads/2019/03/costo-sala-prove-1024x768.jpg', 'Questa sala offre un ambiente accogliente e versatile, perfetto per band e musicisti. Dotata di una batteria acustica di qualità e amplificatori per chitarre, è ideale per registrazioni dal vivo.'),
+('S1111111', 0, 1.00, 'https://www.audioitalia.net/wp-content/uploads/2024/09/Studio-di-registrazione.jpg', 'sala temp'),
 ('S2', 0, 56.00, 'https://www.sammusicstudios.it/images/Sala_Vintage_Sala_Prove.jpg', 'Una sala spaziosa e moderna pensata per band e musicisti. Offre uno spazio ideale per sessioni di registrazione di gruppo, con un mix tra comfort e funzionalità tecnica.test'),
-('SV1', 0, 22.00, 'https://static.wixstatic.com/media/11062b_2996c6170ffb4b1d929439162f981ce3~mv2.jpg', 'Una volta acquistato il numero di Mix che desideri, ci metteremo in contatto con te per realizzare il tuo progetto. MIIIIIIIIIXXXX');
+('SV1', 0, 22.00, 'https://static.wixstatic.com/media/11062b_2996c6170ffb4b1d929439162f981ce3~mv2.jpg', 'Una volta ciaooooooooneeeeeeeeee');
 
 -- --------------------------------------------------------
 
@@ -212,7 +220,7 @@ INSERT INTO `prodotto` (`Prodotto_id`, `hot`, `Prodotto_prezzo`, `Prodotto_immag
 
 CREATE TABLE `sala` (
   `Sala_capienza` int(11) DEFAULT NULL,
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `Sala_Tipo` varchar(32) DEFAULT NULL,
   `Sala_Nome` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -223,6 +231,7 @@ CREATE TABLE `sala` (
 
 INSERT INTO `sala` (`Sala_capienza`, `Prodotto_id`, `Sala_Tipo`, `Sala_Nome`) VALUES
 (5, 'S1', 'Sala registrazione', 'Lumen'),
+(2, 'S1111111', 'Sala prove', 'Sala temp'),
 (100, 'S2', 'Sala registrazione', 'Arcadia');
 
 -- --------------------------------------------------------
@@ -233,7 +242,7 @@ INSERT INTO `sala` (`Sala_capienza`, `Prodotto_id`, `Sala_Tipo`, `Sala_Nome`) VA
 
 CREATE TABLE `servizio` (
   `Servizio_Operatore_Cognome` varchar(32) DEFAULT NULL,
-  `Prodotto_id` varchar(255) NOT NULL,
+  `Prodotto_id` varchar(20) NOT NULL,
   `Servizio_Tipo` varchar(32) DEFAULT NULL,
   `Servizio_Operatore_Nome` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -243,7 +252,7 @@ CREATE TABLE `servizio` (
 --
 
 INSERT INTO `servizio` (`Servizio_Operatore_Cognome`, `Prodotto_id`, `Servizio_Tipo`, `Servizio_Operatore_Nome`) VALUES
-('Lucarini', 'SV1', 'Mix', 'Pietro GAY');
+('Lucarini', 'SV1', 'Mix', 'Pietro');
 
 -- --------------------------------------------------------
 
@@ -327,6 +336,14 @@ ALTER TABLE `ordine_prodotto`
   ADD KEY `prodotto_id` (`prodotto_id`);
 
 --
+-- Indici per le tabelle `prenotazioni`
+--
+ALTER TABLE `prenotazioni`
+  ADD PRIMARY KEY (`id_prenotazioni`),
+  ADD KEY `prodotti_fk` (`prodotto_id`),
+  ADD KEY `utente_fk` (`utente_cf`);
+
+--
 -- Indici per le tabelle `prodotto`
 --
 ALTER TABLE `prodotto`
@@ -359,13 +376,19 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `commenti`
 --
 ALTER TABLE `commenti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `ordine_prodotto`
 --
 ALTER TABLE `ordine_prodotto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT per la tabella `prenotazioni`
+--
+ALTER TABLE `prenotazioni`
+  MODIFY `id_prenotazioni` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Limiti per le tabelle scaricate
@@ -417,6 +440,13 @@ ALTER TABLE `ordine`
 ALTER TABLE `ordine_prodotto`
   ADD CONSTRAINT `ordine_prodotto_ibfk_1` FOREIGN KEY (`ordine_id`) REFERENCES `ordine` (`Ordine_id`),
   ADD CONSTRAINT `ordine_prodotto_ibfk_2` FOREIGN KEY (`prodotto_id`) REFERENCES `prodotto` (`Prodotto_id`);
+
+--
+-- Limiti per la tabella `prenotazioni`
+--
+ALTER TABLE `prenotazioni`
+  ADD CONSTRAINT `prodotti_fk` FOREIGN KEY (`prodotto_id`) REFERENCES `prodotto` (`Prodotto_id`),
+  ADD CONSTRAINT `utente_fk` FOREIGN KEY (`utente_cf`) REFERENCES `utente` (`U_cf`);
 
 --
 -- Limiti per la tabella `sala`

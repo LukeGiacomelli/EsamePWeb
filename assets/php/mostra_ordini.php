@@ -3,7 +3,6 @@ include("config.php");
 $conn = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 $cf_utente = $_SESSION['cf'] ?? '';
 
-// --- ORDINAMENTO (whitelist) ---
 $allowedSort = [
     'data' => 'Data_ordine',
     'stato' => 'stato',
@@ -15,7 +14,7 @@ $dir  = strtoupper($_GET['dir'] ?? 'DESC');
 $orderCol = $allowedSort[$sort] ?? $allowedSort['data'];
 $dir = ($dir === 'ASC') ? 'ASC' : 'DESC';
 
-// Query con ORDER BY dinamico ma sicuro
+//Orderby in base alle cose selezionate
 $sql = "SELECT * FROM ordine WHERE cf_cliente = ? ORDER BY $orderCol $dir";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $cf_utente);
@@ -23,7 +22,6 @@ $stmt->execute();
 $ordini = $stmt->get_result();
 ?>
 
-<!-- Controlli ordinamento -->
 <form method="get"
       class="d-inline-flex align-items-center gap-2 flex-nowrap mb-3"
       style="white-space:nowrap;">
@@ -83,7 +81,7 @@ if ($ordini->num_rows === 0) {
                 $extra = " <span class='badge bg-info text-dark ms-2'>Prenotato per: $dataPrenotazione</span>";
             }else if (!empty($prodotto['Corso_Nome']) && !empty($prodotto['Corso_Data'])){
                 $dataPrenotazione = date('(d/m/Y H:i)', strtotime($prodotto['Corso_Data']));
-                $extra = " <span class='badge bg-warning text-dark ms-2'>Data: $dataPrenotazione</span>";
+                $extra = "<span class='badge bg-warning text-dark ms-2'>Data: $dataPrenotazione</span>";
             }
 
             $totale += $tot;
